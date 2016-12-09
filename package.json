@@ -1,0 +1,24 @@
+{
+  "name": "web-dev",
+  "version": "1.0.0",
+  "description": "Web Dev CS5610 Project",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "express-session": "^1.14.2",
+    "mongoose": "^4.6.8",
+    "multer": "^1.2.0",
+    "node-rest-client": "^2.0.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Raghuveer Ramesh, Vishal Rao"
+}

@@ -1,0 +1,50 @@
+
+<ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
+<div>
+    <ul class="collection">
+
+        <div ng-repeat="concert in model.concerts" class="row-style">
+            <li class="collection-item avatar">
+                <i ng-if="concert.imageURL == undefined" class="material-icons circle red">play_arrow</i>
+                <img ng-if="concert.imageURL != undefined" ng-src="{{concert.imageURL}}" alt="" class="circle" />
+                <span class="title">{{concert.title}}</span>
+                <p>{{concert.dateTime}}
+                </p>
+                <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i> Going</a>-->
+            </li>
+        </div>
+
+        <!--<li class="collection-item avatar">-->
+            <!--<img src="images/yuna.jpg" alt="" class="circle">-->
+            <!--<span class="title">Title</span>-->
+            <!--<p>First Line <br>-->
+                <!--Second Line-->
+            <!--</p>-->
+            <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i> Going</a>-->
+        <!--</li>-->
+        <!--<li class="collection-item avatar">-->
+            <!--<i class="material-icons circle">folder</i>-->
+            <!--<span class="title">Title</span>-->
+            <!--<p>First Line <br>-->
+                <!--Second Line-->
+            <!--</p>-->
+            <!--<a href="#!" class="secondary-content"><i class="material-icons">done_all</i></a>-->
+        <!--</li>-->
+        <!--<li class="collection-item avatar">-->
+            <!--<i class="material-icons circle green">insert_chart</i>-->
+            <!--<span class="title">Title</span>-->
+            <!--<p>First Line <br>-->
+                <!--Second Line-->
+            <!--</p>-->
+            <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
+        <!--</li>-->
+        <!--<li class="collection-item avatar">-->
+            <!--<i class="material-icons circle red">play_arrow</i>-->
+            <!--<span class="title">Title</span>-->
+            <!--<p>First Line <br>-->
+                <!--Second Line-->
+            <!--</p>-->
+            <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
+        <!--</li>-->
+    </ul>
+</div>

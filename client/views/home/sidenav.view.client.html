@@ -1,0 +1,43 @@
+
+<div class="sideNavMenuStyle">
+    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+</div>
+<ul id="slide-out" class="side-nav fixed">
+    <div class="background">
+        <img src="https://unsplash.it/100" class="circle">
+    </div>
+    <li ng-if="model.user" ><a ng-click="model.profileClick()"> @{{model.user.username}}</a></li>
+    <li><a ng-click="model.homeClick()">Home</a></li>
+    <li ng-if="model.user == undefined" ><a onclick='loginClick()' > Login</a></li>
+    <li><a href="#">About</a></li>
+    <li ng-if="model.user"><a href="#">My concerts</a></li>
+    <li ng-if="model.user" ><a onclick='signoutClick()'>Signout</a></li>
+</ul>
+
+<script>
+    $(".button-collapse").sideNav();
+
+    function loginClick() {
+        $('.button-collapse').sideNav('hide');
+        window.location = "#/login";
+    }
+
+    function signoutClick() {
+        $('.button-collapse').sideNav('hide');
+        window.location = "#/";
+    }
+
+</script>
+<style>
+    header, main, footer {
+        padding-left: 30px;
+    }
+
+    @media only screen and (max-width : 992px) {
+        header, main, footer {
+            padding-left: 0;
+        }
+    }
+
+
+</style>
