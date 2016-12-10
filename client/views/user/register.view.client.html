@@ -1,19 +1,32 @@
-<div class="container">
-    <h1>Register</h1>
-    <input ng-model="model.username"
-            type="text"
-           class="form-control"
-           placeholder="Username"
-    />
-    <input type="password"
-           ng-model="model.password"
-           class="form-control"
-           placeholder="Password"/>
-    <input type="password"
-           class="form-control"
-           placeholder="Verify password"/>
-    <a class="btn btn-primary btn-block elementMargin"
-        ng-click="model.register(model.username, model.password)" >Register</a>
-    <a class="btn btn-block elementMargin"
-       href="#/login">Cancel</a>
+<div class="row">
+    <div class="col m5 l3">
+        <ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
+    </div>
+    <div class="col s12 m7 l9">
+        <div class="container">
+            <div class="row">
+                <h1>Register</h1>
+            </div>
+            <div class="row">
+                <input ng-model="model.username"
+                       type="text"
+                       class="form-control"
+                       placeholder="Username"
+                />
+                <input type="password"
+                       ng-model="model.password"
+                       class="form-control"
+                       placeholder="Password"/>
+                <input type="password"
+                       class="form-control"
+                       placeholder="Verify password"/>
+            </div>
+            <div class="row">
+                <a class="waves-effect waves-light btn display_block" ng-click="model.register(model.username, model.password)" >Register</a>
+            </div>
+            <div class="row">
+                <a class="waves-effect waves-light btn display_block" href="#/login">Cancel</a>
+            </div>
+        </div>
+    </div>
 </div>

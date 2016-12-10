@@ -1,22 +1,37 @@
-<ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
-<div class="container">
-    <div ng-show="model.error" class="alert alert-danger" role="alert">
-        {{model.error}}
+<div class="row">
+    <div class="col m5 l3">
+        <ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
     </div>
-    <h1>Login</h1>
-    <input type="text"
-           ng-model="model.username"
-           class="form-control"
-           placeholder="username"/>
-    <input type="password"
-           ng-model="model.password"
-           class="form-control"
-           placeholder="password"/>
-
-
-    <a ng-click="model.login(model.username, model.password)" class="btn btn-primary btn-block elementMargin">Login</a>
-    <a class="btn btn-success btn-block elementMargin"
-       href="#/register">Register</a>
-
-
+    <div class="col s12 m7 l9">
+        <div class="container">
+            <div ng-show="model.error" class="alert alert-danger" role="alert">
+                {{model.error}}
+            </div>
+            <!--<div class="row center-align">-->
+                <!--<img src="../../images/Music_Entertainment_Crowd-512.png">-->
+            <!--</div>-->
+            <div class="row">
+                <h1>Login</h1>
+            </div>
+            <div class="row">
+                <input type="text"
+                       ng-model="model.username"
+                       class="form-control"
+                       placeholder="Username"/>
+            </div>
+            <div class="row">
+                <input type="password"
+                       ng-model="model.password"
+                       class="form-control"
+                       placeholder="Password"/>
+            </div>
+            <div class="row">
+                <a ng-click="model.login(model.username, model.password)" class="display_block waves-effect waves-light btn">Login</a>
+            </div>
+            <div class="row">
+                <a class="waves-effect waves-light btn display_block" href="#/register">Register</a>
+            </div>
+        </div>
+    </div>
 </div>
+
