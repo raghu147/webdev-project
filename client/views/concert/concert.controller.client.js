@@ -5,12 +5,13 @@
         .controller("MyConcertsController", MyConcertsController);
 
 
-    function MyConcertsController($routeParams, $rootScope, ConcertService) {
+    function MyConcertsController($routeParams, $rootScope, ConcertService, $location) {
 
         var vm = this;
         vm.upcomingConcerts = upcomingConcerts;
         vm.getPastConcertsForUser = getPastConcertsForUser;
         vm.user = $rootScope.user;
+        vm.profileClick = profileClick;
 
 
         var userId = $routeParams.uid;
@@ -28,6 +29,11 @@
                 .error(function(error){
                     console.log("error "+ error);
                 });
+        }
+
+        function profileClick() {
+            $('.button-collapse').sideNav('hide');
+            $location.url("/user/" + vm.user._id);
         }
 
         function getPastConcertsForUser() {
@@ -51,7 +57,20 @@
 
         vm.checkSafeHtml = checkSafeHtml;
         vm.doRSVP = doRSVP;
+        vm.profileClick = profileClick;
         vm.user = $rootScope.user;
+        vm.myConcerts = myConcerts;
+
+
+        function myConcerts() {
+            $('.button-collapse').sideNav('hide');
+            $location.url("/user/"+vm.user._id + "/concerts/");
+        }
+
+        function profileClick() {
+            $('.button-collapse').sideNav('hide');
+            $location.url("/user/" + vm.user._id);
+        }
 
         function doRSVP() {
 

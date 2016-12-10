@@ -9,6 +9,69 @@ input.form-control {
 body {
     padding-top: 36px;
     padding-bottom: 56px;
+    background-color: #212121;
+}
+
+h1,h2,h3,h4,h5,h6,p,a {
+    color: #e30013;
+}
+
+.concert-background {
+    background-image: url("../images/concer-background.png");
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+}
+
+.display_block {
+    display: block; !important;
+}
+
+.side-nav a {
+    color: #e30013;
+}
+.side-nav a:hover {
+    background-color: rgba(0, 0, 0, 0.34);
+}
+
+.btn, .btn-large {
+    background-color: #e30013;
+}
+
+.btn:hover, .btn-large:hover {
+    background-color: #e30013;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #e30013;
+    box-shadow: 0 1px 0 0 #e30013;
+}
+
+input, select, textarea{
+    color: #e30013;
+}
+
+textarea:focus, input:focus {
+    color: #e30013;
+}
+
+.red-color {
+    color: #e30013;
+}
+
+.side-nav {
+    background-color: #191818;
+}
+
+.black-color {
+    color: #212121;
+}
+
+.dark-background {
+    background-color: #212121;
+}
+
+.sidebar-background {
+    background-color: #191818;
 }
 
 .website-list-top
@@ -106,4 +169,65 @@ body {
 
 .elementMargin {
     margin-top: 15px;
+}
+
+
+::-webkit-input-placeholder {
+    color: #e30013;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: #e30013;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: #e30013;
+}
+
+:-ms-input-placeholder {
+    color: #e30013;
+}
+
+.back-to-top {
+    background: none;
+    margin: 0;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 70px;
+    height: 70px;
+    z-index: 100;
+    display: none;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.back-to-top i {
+
+    font-size: 60px;
+
+}
+
+input[type=range]+.thumb {
+    background-color: #e30013;
+    border-radius: 50% 50% 50% 0;
+}
+
+
+input[type=range]::-webkit-slider-thumb {
+    background-color: #e30013;
+}
+
+input[type=range]::-moz-range-thumb {
+    background-color: #e30013;
+}
+
+input[type=range]::-ms-thumb {
+    background-color: #e30013;
+}
+
+
+img {
+    max-width: 60%;
+    height: auto;
 }
