@@ -1,49 +1,45 @@
-<div class="container">
-<ng-include src="'views/home/sidenav.view.client.html'" xmlns="http://www.w3.org/1999/html"></ng-include>
+<div class="row">
+    <div class="col m5 l3">
+        <ng-include src="'views/home/sidenav.view.client.html'" xmlns="http://www.w3.org/1999/html"></ng-include>
+    </div>
+    <!--TODO: fix for portrait mode ipad-->
+    <div class="col s12 m7 l9">
+        <div class="container">
+            <h3>Search for Concerts! </h3>
+            <div class="row">
+                <div class="col s7">
+                    <input ng-model="model.location"
+                           type="text"
+                           class="form-control"
+                           placeholder="city/zipcode">
+                </div>
+                <div class="col s3 right-align">
+                    <p class="range-field">
+                        <input ng-model="model.range" type="range" min="1" max="50" />
+                    </p>
+                </div>
+                <div class="col s2 right-align">
+                    <a ng-click="model.search()"><i class="material-icons">search</i></a>
+                </div>
+            </div>
 
+            <ul ng-if="model.concerts" class="collection">
 
-<div>
-    <h3>Search for Concerts! </h3>
-    <div class="row">
-    <div class="col s7">
+                <div ng-repeat="concert in model.concerts" class="row-style">
+                    <li class="collection-item avatar">
+                        <a href="#/concert/{{concert._id}}" >
+                            <i ng-if="concert.imageURL == undefined" class="material-icons circle red">play_arrow</i>
+                            <img ng-if="concert.imageURL != undefined" ng-src="{{concert.imageURL}}" alt="" class="circle" />
+                            <span class="title">{{concert.title}}</span>
+                            <p>{{concert.dateTime}}
+                            </p>
+                        </a>
+                        <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i> Going</a>-->
+                    </li>
+                </div>
 
-
-
-    <input ng-model="model.searchQuery"
-           type="text"
-           class="form-control"
-           placeholder="city/zipcode"
-    >
+            </ul>
+        </div>
 
     </div>
-        <div class="col s3 right-align">
-            <p class="range-field">
-                <input type="range" id="test5" min="1" max="20" />
-            </p>
-        </div>
-
-        <div class="col s2 right-align">
-            <a><i class="material-icons">search</i></a>
-        </div>
-
-    </div>
-
-
-    <ul ng-if="model.concerts" class="collection">
-
-        <div ng-repeat="concert in model.concerts" class="row-style">
-            <li class="collection-item avatar">
-                <a href="#/concert/{{concert._id}}" >
-                <i ng-if="concert.imageURL == undefined" class="material-icons circle red">play_arrow</i>
-                <img ng-if="concert.imageURL != undefined" ng-src="{{concert.imageURL}}" alt="" class="circle" />
-                <span class="title">{{concert.title}}</span>
-                <p>{{concert.dateTime}}
-                </p>
-                </a>
-                <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i> Going</a>-->
-            </li>
-        </div>
-
-    </ul>
-</div>
 </div>
