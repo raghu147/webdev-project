@@ -19,6 +19,11 @@
                 controller: "RegisterController",
                 controllerAs: "model"
             })
+            .when("/about", {
+                templateUrl: "views/home/about.view.client.html",
+                controller: "HomeController",
+                controllerAs: "model"
+            })
             .when("/:id", {
                 templateUrl: "views/home/home.view.client.html",
                 controller: "HomeController",

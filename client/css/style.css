@@ -207,3 +207,27 @@ textarea:focus, input:focus {
     font-size: 60px;
 
 }
+
+input[type=range]+.thumb {
+    background-color: #e30013;
+    border-radius: 50% 50% 50% 0;
+}
+
+
+input[type=range]::-webkit-slider-thumb {
+    background-color: #e30013;
+}
+
+input[type=range]::-moz-range-thumb {
+    background-color: #e30013;
+}
+
+input[type=range]::-ms-thumb {
+    background-color: #e30013;
+}
+
+
+img {
+    max-width: 60%;
+    height: auto;
+}
