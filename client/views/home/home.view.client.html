@@ -1,50 +1,49 @@
+<div class="container">
+<ng-include src="'views/home/sidenav.view.client.html'" xmlns="http://www.w3.org/1999/html"></ng-include>
 
-<ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
+
 <div>
-    <ul class="collection">
+    <h3>Search for Concerts! </h3>
+    <div class="row">
+    <div class="col s7">
+
+
+
+    <input ng-model="model.searchQuery"
+           type="text"
+           class="form-control"
+           placeholder="city/zipcode"
+    >
+
+    </div>
+        <div class="col s3 right-align">
+            <p class="range-field">
+                <input type="range" id="test5" min="1" max="20" />
+            </p>
+        </div>
+
+        <div class="col s2 right-align">
+            <a><i class="material-icons">search</i></a>
+        </div>
+
+    </div>
+
+
+    <ul ng-if="model.concerts" class="collection">
 
         <div ng-repeat="concert in model.concerts" class="row-style">
             <li class="collection-item avatar">
+                <a href="#/concert/{{concert._id}}" >
                 <i ng-if="concert.imageURL == undefined" class="material-icons circle red">play_arrow</i>
                 <img ng-if="concert.imageURL != undefined" ng-src="{{concert.imageURL}}" alt="" class="circle" />
                 <span class="title">{{concert.title}}</span>
                 <p>{{concert.dateTime}}
                 </p>
+                </a>
                 <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i> Going</a>-->
             </li>
         </div>
 
-        <!--<li class="collection-item avatar">-->
-            <!--<img src="images/yuna.jpg" alt="" class="circle">-->
-            <!--<span class="title">Title</span>-->
-            <!--<p>First Line <br>-->
-                <!--Second Line-->
-            <!--</p>-->
-            <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i> Going</a>-->
-        <!--</li>-->
-        <!--<li class="collection-item avatar">-->
-            <!--<i class="material-icons circle">folder</i>-->
-            <!--<span class="title">Title</span>-->
-            <!--<p>First Line <br>-->
-                <!--Second Line-->
-            <!--</p>-->
-            <!--<a href="#!" class="secondary-content"><i class="material-icons">done_all</i></a>-->
-        <!--</li>-->
-        <!--<li class="collection-item avatar">-->
-            <!--<i class="material-icons circle green">insert_chart</i>-->
-            <!--<span class="title">Title</span>-->
-            <!--<p>First Line <br>-->
-                <!--Second Line-->
-            <!--</p>-->
-            <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
-        <!--</li>-->
-        <!--<li class="collection-item avatar">-->
-            <!--<i class="material-icons circle red">play_arrow</i>-->
-            <!--<span class="title">Title</span>-->
-            <!--<p>First Line <br>-->
-                <!--Second Line-->
-            <!--</p>-->
-            <!--<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>-->
-        <!--</li>-->
     </ul>
+</div>
 </div>

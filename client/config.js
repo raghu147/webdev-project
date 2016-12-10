@@ -29,6 +29,11 @@
                 controller: "ProfileController",
                 controllerAs: "model",
             })
+            .when("/concert/:cid", {
+                templateUrl : "views/concert/concertDetail.view.client.html",
+                controller: "ConcertDetailController",
+                controllerAs: "model"
+            })
             .otherwise({
                 redirectTo: "/"
             });

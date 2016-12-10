@@ -6,8 +6,49 @@ module.exports = function(app, model) {
     app.get("/api/concertForUser/", findConcertsForUser);
     app.get("/api/concertDetail/:cid", getConcertDetail);
 
+    var http = require('http');
 
-    function getConcertDetail() {
+    function getConcertDetail(req, resp) {
+
+        var id = req.params.cid;
+        var URL = "http://api.eventful.com/json/events/get?app_key=sC5S8M8pwQpBW5t2&image_sizes=block&id=" + id;
+
+        http.get(URL, function(res){
+            var body = '';
+
+            res.on('data', function(chunk){
+                body += chunk;
+            });
+
+            res.on('end', function(){
+                var res = JSON.parse(body);
+                var concertObj = {};
+                concertObj.id = res.id;
+                concertObj.title = res.title;
+                var date = new Date(res.start_time);
+                concertObj.dateTime = date;
+                concertObj.date = date.toLocaleDateString();
+                concertObj.time = date.toLocaleTimeString();
+                concertObj.venue_name = res.venue_name;
+                concertObj.address = res.address + "," + res.city;
+                concertObj.description = res.description;
+
+                if(res.images != null) {
+
+                    if(Array.isArray(res.images.image)) {
+                        concertObj.imageURL = res.images.image[0].block.url;
+                    }
+                    else {
+                        concertObj.imageURL  = res.images.image.block.url;
+                    }
+                }
+
+                resp.send(concertObj);
+
+            });
+        }).on('error', function(e){
+            console.log("Got an error: ", e);
+        });
 
     }
 
@@ -26,7 +67,6 @@ module.exports = function(app, model) {
 
     function searchConcert(req, resp) {
 
-        var http = require('http');
 
         URLPrefix+= 'l=02120';
 
@@ -38,28 +78,34 @@ module.exports = function(app, model) {
             });
 
             res.on('end', function(){
-                var events = JSON.parse(body).events.event;
-                var concerts = [];
 
-                console.log(events.length);
+                var apiResponse = JSON.parse(body);
+                if(apiResponse.events == null || apiResponse.events == undefined) {
+                    console.log("null");
+                    return;
+                }
+                var concerts = apiResponse.events.event;
+                var response = [];
 
-                for(i = 0; i < events.length; i ++) {
+                console.log(concerts.length);
 
-                    event = events[i];
-                    var concert = {};
-                    concert._id = event.id;
-                    concert.title = event.title;
-                    concert.venue = event.venue_name;
-                    var date = new Date(event.start_time);
+                for(i = 0; i < concerts.length; i ++) {
+
+                    var concert = concerts[i];
+                    var concertObj = {};
+                    concertObj._id = concert.id;
+                    concertObj.title = concert.title;
+                    concertObj.venue = concert.venue_name;
+                    var date = new Date(concert.start_time);
 
 
-                    concert.dateTime = date.toLocaleDateString();
-                    if(event.image != null)
-                        concert.imageURL = event.image.block.url;
-                    concerts.push(concert);
+                    concertObj.dateTime = date.toLocaleDateString();
+                    if(concert.image != null)
+                        concertObj.imageURL = concert.image.block.url;
+                    response.push(concertObj);
                 }
 
-                resp.send(concerts);
+                resp.send(response);
             });
         }).on('error', function(e){
             console.log("Got an error: ", e);

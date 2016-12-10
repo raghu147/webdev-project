@@ -1,0 +1,20 @@
+
+<ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
+
+<div class="row">
+
+    <div class="col s12"><h4 class="center-align">{{model.concert.title}}</h4></div>
+
+    <div class="col s6"> <img ng-src="{{model.concert.imageURL}}" ></div>
+    <div class="col s6"> {{model.concert.date}} </div>
+    <div class="col s6"> {{model.concert.time}} </div>
+
+    <div class="col s6"> {{model.concert.venue_name}} </div>
+    <div class="col s6"> {{model.concert.address}} </div>
+    <div class="col s6"> <a class="btn"> RSVP !</a> </div>
+
+    <div class="col s12" ng-bind-html="model.checkSafeHtml(model.concert.description)" >  </div>
+
+</div>
+
+
