@@ -97,11 +97,11 @@ module.exports = function (app, model) {
                     var concertObj = {};
                     concertObj._id = concert.id;
                     concertObj.title = concert.title;
-                    concertObj.venue = concert.venue_name;
+                    concertObj.venue_name = concert.venue_name;
                     var date = new Date(concert.start_time);
 
-
-                    concertObj.dateTime = date.toLocaleDateString();
+                    concertObj.date = date.toLocaleDateString();
+                    concertObj.time = date.toLocaleTimeString();
                     if (concert.image != null)
                         concertObj.imageURL = concert.image.block.url;
                     response.push(concertObj);
