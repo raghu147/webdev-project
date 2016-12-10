@@ -3,10 +3,37 @@ module.exports = function(app, model) {
 
     app.get("/api/user" , findUser);
     app.get("/api/user/:userId" , findUserById);
+    app.get("/api/user/:userId/concerts", findConcertsForUser);
+    app.get("/api/user/:userId/pastConcerts", pastConcerts);
+
     app.post("/api/user", createUser);
     app.put("/api/user/:userId" , updateUser);
     app.delete("/api/user/:userId", deleteUser);
 
+    function pastConcerts(req, res) {
+
+        var userId = req.params.userId;
+        model
+            .concertModel
+            .findConcertsForUser(userId)
+            .then(
+                function (user) {
+                    res.json(user.myConcerts);
+                }
+            );
+    }
+    function findConcertsForUser(req, res) {
+
+        var userId = req.params.userId;
+        model
+            .concertModel
+            .findConcertsForUser(userId)
+            .then(
+                function (user) {
+                    res.json(user.myConcerts);
+                }
+            );
+    }
 
     function findUser(req, res) {
         var username = req.query.username;

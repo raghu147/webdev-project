@@ -2,6 +2,7 @@ module.exports = function() {
     var mongoose = require("mongoose");
 
     var ConcertSchema = mongoose.Schema({
+        cid: String,
         users: [{type:mongoose.Schema.Types.ObjectId, ref:'UserModel'}],
         title: String,
         venue: String,
@@ -10,7 +11,7 @@ module.exports = function() {
         imageUrl: String,
         city: String,
         dateCreated: {type: Date, default: Date.now}
-    }, {collection: "website"});
+    }, {collection: "concert"});
 
     return ConcertSchema;
 };

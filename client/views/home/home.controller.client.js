@@ -3,22 +3,24 @@
         .module("ConcertFinder")
         .controller("HomeController", HomeController)
 
-    function HomeController($location, $routeParams, ConcertService, UserService) {
+    function HomeController($location, $routeParams, ConcertService, UserService, $rootScope) {
         var vm = this;
 
-
         vm.profileClick = profileClick;
-        vm.homeClick = homeClick;
         vm.search = search;
         vm.range = 10;
+        vm.myConcerts = myConcerts;
+        vm.user = $rootScope.user;
+
+        function myConcerts() {
+            $('.button-collapse').sideNav('hide');
+            $location.url("/user/"+vm.user._id + "/concerts/");
+        }
+
 
         function profileClick() {
             $('.button-collapse').sideNav('hide');
             $location.url("/user/" + vm.user._id);
-        }
-
-        function homeClick() {
-            $('.button-collapse').sideNav('hide');
         }
 
         function search() {

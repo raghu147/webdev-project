@@ -5,17 +5,9 @@
         .controller("RegisterController", RegisterController)
         .controller("ProfileController", ProfileController);
 
-    function LoginController($location, UserService) {
+    function LoginController($location, UserService, $rootScope) {
         var vm = this;
         vm.login = login;
-        vm.homeClick = homeClick;
-
-        function homeClick() {
-            $('.button-collapse').sideNav('hide');
-            $location.url("/");
-        }
-
-
 
         function login(username, password) {
             var promise = UserService.findUserByCredentials(username, password);
@@ -23,6 +15,7 @@
             promise
                 .success( function(user) {
                     if(user) {
+                        $rootScope.user = user;
                         $location.url("/"+ user._id);
                     } else {
                         vm.error = "No such user";
@@ -37,15 +30,16 @@
 
     }
 
-    function ProfileController($routeParams, $location, UserService) {
+    function ProfileController($routeParams, $location, UserService, $rootScope) {
         var vm = this;
 
         vm.saveProfile = saveProfile;
-        vm.homeClick = homeClick;
+        vm.myConcerts = myConcerts;
 
-        function homeClick() {
+
+        function myConcerts() {
             $('.button-collapse').sideNav('hide');
-            $location.url("/"+ vm.user._id);
+            $location.url("/user/"+vm.user._id + "/concerts/");
         }
 
         var userId = $routeParams.uid;

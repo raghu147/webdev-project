@@ -9,19 +9,43 @@ module.exports = function() {
         setModel: setModel,
         findConcertsForUser: findConcertsForUser,
         findConcertById: findConcertById,
-        addConcertForUser: addConcertForUser
+        addConcertForUser: addConcertForUser,
+        findUsersForConcert: findUsersForConcert,
+        createConcert: createConcert
+
     };
+
+    function createConcert(concert) {
+        return ConcertModel
+            .create(concert);
+    }
+
+    function findUsersForConcert(concertId) {
+
+        return findConcertById(concertId).populate("users").exec();
+    }
 
     function addConcertForUser (userId, concert) {
 
+        return findConcertById(concert.cid)
+            .then(function (concertObj) {
+                model.userModel.findUserById(userId)
+                    .then(function (userObj) {
+                        userObj.myConcerts.push(concertObj);
+                        concertObj.users.push(userObj._id);
+                        concertObj.save();
+                        return userObj.save();
+                    });
+            });
     }
 
     function findConcertsForUser(userId) {
-        return model.userModel.findUserById(userId).populate("myConcerts","name").exec();
+        var re = model.userModel.findUserById(userId).populate("myConcerts").exec();
+        return re;
     }
 
     function findConcertById(concertId) {
-        return ConcertModel.findOne({_id:concertId});
+        return ConcertModel.findOne({cid:concertId});
     }
 
     function setModel(_model) {

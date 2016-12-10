@@ -1,13 +1,67 @@
-module.exports = function(app, model) {
+module.exports = function (app, model) {
 
 
+    app.post("/api/concert/rsvp/", doRSVP);
     app.get("/api/concert/:cid", findConcertById);
-    app.get("/api/searchConcert/", searchConcert);
-    app.get("/api/concertForUser/", findConcertsForUser);
+    app.get("/api/concertsForUser/", findConcertsForUser);
     app.get("/api/concertDetail/:cid", getConcertDetail);
     app.post("/api/searchConcerts/", searchConcerts);
 
     var http = require('http');
+
+    function doRSVP(req, res) {
+
+        var rsvpObj = req.body;
+        var userId = rsvpObj.userId;
+        var concert = rsvpObj.concert;
+
+        model
+            .concertModel
+            .findConcertsForUser(userId)
+            .then(
+                function (user) {
+
+                    if(user.myConcerts.length > 0)
+                    {
+                        for(var i = 0 ; i < user.myConcerts.length; i++) {
+
+                            if(user.myConcerts[i].cid.toString() === concert.id)
+                                return;
+                        }
+                    }
+
+
+                    model
+                        .concertModel
+                        .findConcertById(concert.cid)
+                        .then(function(concertObj) {
+                            if(concertObj != null) {
+
+                                model.concertModel.addConcertForUser(userId, concertObj)
+                                    .then( function(newConcertObj) {
+                                                res.sendStatus(200) ;
+                                            });
+                            }
+                            else {
+
+                                model.concertModel.createConcert(concert)
+                                    .then( function(newConcertObj){
+                                        model
+                                            .concertModel
+                                            .addConcertForUser(userId, newConcertObj)
+                                            .then(function () {
+                                                res.sendStatus(200) ;
+                                            });
+                                    });
+                            }
+                        })
+
+
+                }
+            );
+
+
+    }
 
     function searchConcerts(req, resp) {
 
@@ -18,17 +72,17 @@ module.exports = function(app, model) {
         URLPrefix += range;
         URLPrefix += '&l=' + location;
 
-        http.get(URLPrefix, function(res){
+        http.get(URLPrefix, function (res) {
             var body = '';
 
-            res.on('data', function(chunk){
+            res.on('data', function (chunk) {
                 body += chunk;
             });
 
-            res.on('end', function(){
+            res.on('end', function () {
 
                 var apiResponse = JSON.parse(body);
-                if(apiResponse.events == null || apiResponse.events == undefined) {
+                if (apiResponse.events == null || apiResponse.events == undefined) {
                     console.log("null");
                     return;
                 }
@@ -37,7 +91,7 @@ module.exports = function(app, model) {
 
                 console.log(concerts.length);
 
-                for(i = 0; i < concerts.length; i ++) {
+                for (i = 0; i < concerts.length; i++) {
 
                     var concert = concerts[i];
                     var concertObj = {};
@@ -48,14 +102,14 @@ module.exports = function(app, model) {
 
 
                     concertObj.dateTime = date.toLocaleDateString();
-                    if(concert.image != null)
+                    if (concert.image != null)
                         concertObj.imageURL = concert.image.block.url;
                     response.push(concertObj);
                 }
 
                 resp.send(response);
             });
-        }).on('error', function(e){
+        }).on('error', function (e) {
             console.log("Got an error: ", e);
         });
     }
@@ -65,14 +119,14 @@ module.exports = function(app, model) {
         var id = req.params.cid;
         var URL = "http://api.eventful.com/json/events/get?app_key=sC5S8M8pwQpBW5t2&image_sizes=block&id=" + id;
 
-        http.get(URL, function(res){
+        http.get(URL, function (res) {
             var body = '';
 
-            res.on('data', function(chunk){
+            res.on('data', function (chunk) {
                 body += chunk;
             });
 
-            res.on('end', function(){
+            res.on('end', function () {
                 var res = JSON.parse(body);
                 var concertObj = {};
                 concertObj.id = res.id;
@@ -85,20 +139,22 @@ module.exports = function(app, model) {
                 concertObj.address = res.address + "," + res.city;
                 concertObj.description = res.description;
 
-                if(res.images != null) {
+                if (res.images != null) {
 
-                    if(Array.isArray(res.images.image)) {
+                    if (Array.isArray(res.images.image)) {
                         concertObj.imageURL = res.images.image[0].block.url;
                     }
                     else {
-                        concertObj.imageURL  = res.images.image.block.url;
+                        concertObj.imageURL = res.images.image.block.url;
                     }
                 }
 
+
                 resp.send(concertObj);
 
+
             });
-        }).on('error', function(e){
+        }).on('error', function (e) {
             console.log("Got an error: ", e);
         });
 
@@ -115,54 +171,6 @@ module.exports = function(app, model) {
                     res.json(concerts);
                 }
             );
-    }
-
-    function searchConcert(req, resp) {
-
-
-        URLPrefix+= 'l=02120';
-
-        http.get(URLPrefix, function(res){
-            var body = '';
-
-            res.on('data', function(chunk){
-                body += chunk;
-            });
-
-            res.on('end', function(){
-
-                var apiResponse = JSON.parse(body);
-                if(apiResponse.events == null || apiResponse.events == undefined) {
-                    console.log("null");
-                    return;
-                }
-                var concerts = apiResponse.events.event;
-                var response = [];
-
-                console.log(concerts.length);
-
-                for(i = 0; i < concerts.length; i ++) {
-
-                    var concert = concerts[i];
-                    var concertObj = {};
-                    concertObj._id = concert.id;
-                    concertObj.title = concert.title;
-                    concertObj.venue = concert.venue_name;
-                    var date = new Date(concert.start_time);
-
-
-                    concertObj.dateTime = date.toLocaleDateString();
-                    if(concert.image != null)
-                        concertObj.imageURL = concert.image.block.url;
-                    response.push(concertObj);
-                }
-
-                resp.send(response);
-            });
-        }).on('error', function(e){
-            console.log("Got an error: ", e);
-        });
-
     }
 
     function findConcertById(req, res) {

@@ -34,6 +34,11 @@
                 controller: "ConcertDetailController",
                 controllerAs: "model"
             })
+            .when("/user/:uid/concerts", {
+                templateUrl : "views/concert/myConcerts.view.client.html",
+                controller: "MyConcertsController",
+                controllerAs: "model"
+            })
             .otherwise({
                 redirectTo: "/"
             });
