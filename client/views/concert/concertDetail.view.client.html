@@ -3,13 +3,39 @@
         <ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
     </div>
     <div class="col s12 m7 l9">
-        <div class="col s12"><h4 class="center-align">{{model.concert.title}}</h4></div>
-        <div class="col s6"> <img ng-src="{{model.concert.imageURL}}" ></div>
-        <div class="col s6"> {{model.concert.date}} </div>
-        <div class="col s6"> {{model.concert.time}} </div>
-        <div class="col s6"> {{model.concert.venue_name}} </div>
-        <div class="col s6"> {{model.concert.address}} </div>
-        <div ng-if="model.user != undefined" ng-click="model.doRSVP()" class="col s6"> <a class="btn"> RSVP !</a> </div>
-        <div class="col s12" ng-bind-html="model.checkSafeHtml(model.concert.description)">  </div>
+        <div class="loading" data-loading>
+            <!--<double-bounce-spinner></double-bounce-spinner>-->
+            <wave-spinner></wave-spinner>
+        </div>
+        <div ng-if="model.concert">
+            <div class="card sidebar-background darken-1">
+                <div class="card-content white-text">
+                    <h5 class="center-align card-title" >{{model.concert.title}}</h5>
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <img ng-if="concert.imageURL == undefined" src="../../images/Music.png" class="circle default-img" >
+                            <img ng-if="concert.imageURL != undefined" ng-src="{{model.concert.imageURL}}" alt="" class="circle" />
+                        </div>
+                        <div class="col s12 m8">
+                            <div class="row">
+                                <p>On :{{model.concert.date}},   At : {{model.concert.time}}</p>
+                            </div>
+                            <div class="row">
+                                <p>{{model.concert.venue_name}}</p>
+                            </div>
+                            <div class="row">
+                                <p>{{model.concert.address}}</p>
+                            </div>
+                            <div class="row">
+                                <div ng-if="model.user !== undefined" class="col s6"> <a class="btn" ng-click="model.doRSVP()"> RSVP !</a> </div>
+                            </div>
+                        </div>
+                        <div class="col s12" ng-bind-html="model.checkSafeHtml(model.concert.description)"></div>
+                    </div>
+                    <div class="card-action">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

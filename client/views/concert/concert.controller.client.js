@@ -60,6 +60,7 @@
         vm.profileClick = profileClick;
         vm.user = $rootScope.user;
         vm.myConcerts = myConcerts;
+        vm.concert = undefined;
 
 
         function myConcerts() {

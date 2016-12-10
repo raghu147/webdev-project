@@ -24,6 +24,7 @@
         }
 
         function search() {
+            vm.concerts = [];
             var promise = ConcertService.searchConcerts(vm.location, vm.range);
             promise
                 .success( function(concerts) {
@@ -34,7 +35,6 @@
                 .error(function(error){
                     console.log("error "+ error);
                 });
-
         }
 
         function init() {

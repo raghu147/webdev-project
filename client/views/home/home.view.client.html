@@ -32,7 +32,8 @@
                     <ul ng-if="model.concerts">
                         <!-- Loading Animation -->
                         <div class="loading" data-loading>
-                            <double-bounce-spinner></double-bounce-spinner>
+                            <!--<double-bounce-spinner></double-bounce-spinner>-->
+                            <wave-spinner></wave-spinner>
                         </div>
                         <div ng-repeat="concert in model.concerts">
                             <div class="card sidebar-background darken-1">
@@ -47,7 +48,10 @@
                                             <h5>{{concert.title}}</h5>
                                         </div>
                                         <div class="row">
-                                            <p>On : {{concert.dateTime}}</p>
+                                            <p>On : {{concert.date}} At: {{concert.time}}</p>
+                                        </div>
+                                        <div class="row">
+                                            <p>{{concert.venue_name}}</p>
                                         </div>
                                     </div>
                                     <a class="waves-effect waves-light btn display_block" href="#/concert/{{concert._id}}">Event Details</a>
