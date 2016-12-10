@@ -1,12 +1,64 @@
 module.exports = function(app, model) {
 
-    var URLPrefix = 'http://api.eventful.com/json/events/search?app_key=sC5S8M8pwQpBW5t2&q=music&image_sizes=block&within=5&units=miles&';
+
     app.get("/api/concert/:cid", findConcertById);
     app.get("/api/searchConcert/", searchConcert);
     app.get("/api/concertForUser/", findConcertsForUser);
     app.get("/api/concertDetail/:cid", getConcertDetail);
+    app.post("/api/searchConcerts/", searchConcerts);
 
     var http = require('http');
+
+    function searchConcerts(req, resp) {
+
+        var URLPrefix = 'http://api.eventful.com/json/events/search?app_key=sC5S8M8pwQpBW5t2&q=music&image_sizes=block&units=miles&within=';
+        var searchObj = req.body;
+        var location = searchObj.location;
+        var range = searchObj.range;
+        URLPrefix += range;
+        URLPrefix += '&l=' + location;
+
+        http.get(URLPrefix, function(res){
+            var body = '';
+
+            res.on('data', function(chunk){
+                body += chunk;
+            });
+
+            res.on('end', function(){
+
+                var apiResponse = JSON.parse(body);
+                if(apiResponse.events == null || apiResponse.events == undefined) {
+                    console.log("null");
+                    return;
+                }
+                var concerts = apiResponse.events.event;
+                var response = [];
+
+                console.log(concerts.length);
+
+                for(i = 0; i < concerts.length; i ++) {
+
+                    var concert = concerts[i];
+                    var concertObj = {};
+                    concertObj._id = concert.id;
+                    concertObj.title = concert.title;
+                    concertObj.venue = concert.venue_name;
+                    var date = new Date(concert.start_time);
+
+
+                    concertObj.dateTime = date.toLocaleDateString();
+                    if(concert.image != null)
+                        concertObj.imageURL = concert.image.block.url;
+                    response.push(concertObj);
+                }
+
+                resp.send(response);
+            });
+        }).on('error', function(e){
+            console.log("Got an error: ", e);
+        });
+    }
 
     function getConcertDetail(req, resp) {
 
