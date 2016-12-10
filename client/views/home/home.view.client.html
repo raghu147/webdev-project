@@ -29,11 +29,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <!-- Loading Animation -->
-                    <!--<div class="loading spinner_grid" data-loading>-->
-                        <!--<double-bounce-spinner></double-bounce-spinner>-->
-                    <!--</div>-->
                     <ul ng-if="model.concerts">
+                        <!-- Loading Animation -->
+                        <div class="loading" data-loading>
+                            <double-bounce-spinner></double-bounce-spinner>
+                        </div>
                         <div ng-repeat="concert in model.concerts">
                             <div class="card sidebar-background darken-1">
                                 <div class="card-content white-text">

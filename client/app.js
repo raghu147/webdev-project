@@ -1,3 +1,3 @@
 (function (){ // IIFE
-    angular.module("ConcertFinder", ["ngRoute", "textAngular", "angular-spinkit"]);
+    angular.module("ConcertFinder", ["ngRoute", "textAngular", "angular-spinkit", "loadingdirective"]);
 })();
