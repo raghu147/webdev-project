@@ -30,7 +30,7 @@
 
     }
 
-    function ProfileController($routeParams, $location, UserService, $rootScope) {
+    function ProfileController($routeParams, $location, UserService) {
         var vm = this;
 
         vm.saveProfile = saveProfile;
@@ -45,7 +45,10 @@
         var userId = $routeParams.uid;
 
         function saveProfile() {
-            UserService.updateUser(vm.user);
+            UserService.updateUser(vm.user)
+                .success(function(save) {
+                    Materialize.toast('Saved!', 4000);
+                });
         }
 
         var promise =  UserService.findUserById(userId);
@@ -62,7 +65,7 @@
 
     }
 
-    function RegisterController($location, UserService) {
+    function RegisterController($location, UserService, $rootScope) {
 
         var vm = this;
         vm.register = register;
@@ -94,7 +97,8 @@
                 promise
                     .success( function(user) {
                         vm.user = user;
-                        $location.url("/user/" + user._id);
+                        $rootScope.user = user;
+                        $location.url("/#");
                     })
                     .error(function(error){
                         console.log("error "+ error);
