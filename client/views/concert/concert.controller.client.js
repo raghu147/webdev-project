@@ -23,7 +23,7 @@
 
             promise
                 .success(function(concerts) {
-                    vm.person.concerts = concerts;
+                    vm.concerts = concerts;
                 })
                 .error(function(error){
                     console.log("error "+ error);

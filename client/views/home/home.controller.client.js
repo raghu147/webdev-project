@@ -1,16 +1,16 @@
 (function(){
     angular
         .module("ConcertFinder")
-        .controller("HomeController", HomeController)
+        .controller("HomeController", HomeController);
 
-    function HomeController($location, $routeParams, ConcertService, UserService, $rootScope) {
+    function HomeController($location, ConcertService, UserService) {
         var vm = this;
 
         vm.profileClick = profileClick;
         vm.search = search;
         vm.range = 10;
         vm.myConcerts = myConcerts;
-        vm.user = $rootScope.user;
+        vm.peopleClick = peopleClick;
 
         function myConcerts() {
             $('.button-collapse').sideNav('hide');
@@ -21,6 +21,11 @@
         function profileClick() {
             $('.button-collapse').sideNav('hide');
             $location.url("/user/" + vm.user._id);
+        }
+
+        function peopleClick() {
+            $('.button-collapse').sideNav('hide');
+            $location.url("/user/" + vm.user._id + "/people");
         }
 
         function search() {
