@@ -164,8 +164,29 @@ module.exports = function (app, model) {
                     }
                 }
 
+                concertObj.isGoing = false;
 
-                resp.send(concertObj);
+
+                if(req.user) {
+
+                    var myConcerts = req.user.myConcerts;
+                    model.concertModel.findConcertById(concertObj.id)
+                        .then(function (dbConcertObj) {
+
+                            for(var i = 0; i < myConcerts.length; i ++) {
+
+                                if(myConcerts[i].toString() === dbConcertObj._id.toString()) {
+                                    concertObj.isGoing = true;
+                                    break;
+                                }
+                            }
+
+                            resp.send(concertObj);
+                        })
+                }
+                else {
+                    resp.send(concertObj);
+                }
 
 
             });

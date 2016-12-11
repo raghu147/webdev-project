@@ -13,8 +13,8 @@
                     <h5 class="center-align card-title" >{{model.concert.title}}</h5>
                     <div class="row">
                         <div class="col s12 m4">
-                            <img ng-if="concert.imageURL == undefined" src="../../images/Music.png" class="circle default-img" >
-                            <img ng-if="concert.imageURL != undefined" ng-src="{{model.concert.imageURL}}" alt="" class="circle" />
+                            <img ng-if="model.concert.imageURL == undefined" src="../../images/Music.png" class="circle default-img" >
+                            <img ng-if="model.concert.imageURL != undefined" ng-src="{{model.concert.imageURL}}" alt="" class="circle" />
                         </div>
                         <div class="col s12 m8">
                             <div class="row">
@@ -27,7 +27,8 @@
                                 <p>{{model.concert.address}}</p>
                             </div>
                             <div class="row">
-                                <div ng-if="model.user !== undefined" class="col s6"> <a class="btn" ng-click="model.doRSVP()"> RSVP !</a> </div>
+                                <div ng-if="model.concert.isGoing === false && model.user != undefined" class="col s6"> <a class="btn" ng-click="model.doRSVP()"> RSVP !</a> </div>
+                                <div ng-if="model.concert.isGoing === true" class="col s6"> <a class="btn" > is Going!</a> </div>
                             </div>
                         </div>
                         <div class="col s12" ng-bind-html="model.checkSafeHtml(model.concert.description)"></div>
