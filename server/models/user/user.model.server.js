@@ -25,6 +25,10 @@ module.exports = function() {
     }
 
     function followUser(userObj, personObj){
+        for(var i=0; i<userObj.follows.length; i++){
+            if(userObj.follows[i]._id === personObj._id)
+                return
+        }
         userObj.follows.push(personObj);
         return userObj.save();
     }
