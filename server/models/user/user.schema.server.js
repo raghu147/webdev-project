@@ -2,6 +2,7 @@ module.exports = function() {
     var mongoose = require("mongoose");
 
     var UserSchema = mongoose.Schema({
+        role: {type: String, enum: ['DEFAULT', 'ADMIN']},
         username: String,
         password: String,
         firstName: String,
@@ -11,7 +12,9 @@ module.exports = function() {
         dateCreated: {type: Date, default: Date.now},
         privateProfile: Boolean,
         myConcerts: [{type:mongoose.Schema.Types.ObjectId, ref:'ConcertModel'}],
-        follows: [{type:mongoose.Schema.Types.ObjectId, ref:'UserModel'}]
+        follows: [{type:mongoose.Schema.Types.ObjectId, ref:'UserModel'}],
+        isDeleted:Boolean
+
     }, {collection: "user"});
 
     return UserSchema;

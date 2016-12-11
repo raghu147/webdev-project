@@ -12,7 +12,10 @@ module.exports = function() {
         deleteUser: deleteUser,
         findUserByUsername: findUserByUsername,
         setModel: setModel,
-        followUser: followUser
+        followUser: followUser,
+        setModel: setModel,
+        adminListUsers: adminListUsers,
+        adminDeleteUser: adminDeleteUser
     };
 
     return api;
@@ -26,8 +29,24 @@ module.exports = function() {
         return userObj.save();
     }
 
+    function adminListUsers() {
+        return UserModel.find();
+    }
+
+    function adminDeleteUser(userId) {
+        return UserModel.update(
+                {_id: userId},
+                {
+                    isDeleted:true
+                }
+            );
+    }
+
+
     function createUser(user) {
-        user.privateProfile = true;
+        user.privateProfile = false;
+        user.isDeleted = false;
+        user.role = "DEFAULT";
         return UserModel.create(user);
     }
 

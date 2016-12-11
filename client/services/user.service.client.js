@@ -11,14 +11,27 @@
             createUser: createUser,
             findUserByUsername: findUserByUsername,
             updateUser: updateUser,
-            deleteUser: deleteUser,
             login: login,
             checkLogin: checkLogin,
             logout: logout,
             register: register,
-            search: search
+            search: search,
+            getUserList: getUserList,
+            deleteUser: deleteUser
+
         };
         return api;
+
+        function getUserList() {
+            return $http.get("/api/admin");
+        }
+
+        function deleteUser(userId) {
+            var obj = {
+                userId:userId
+            }
+            return $http.post("/api/adminDelete", obj);
+        }
 
         function search() {
             return $http.get("/api/searchConcert");
@@ -50,15 +63,6 @@
             return $http.put("/api/user/" + user._id, user);
         }
 
-        function deleteUser(userId) {
-
-            users.forEach(function (result, index) {
-                if (result["_id"] === userId) {
-                    users.splice(index, 1);
-                    return;
-                }
-            });
-        }
 
         function findUserById(userId) {
 

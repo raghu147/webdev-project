@@ -49,6 +49,7 @@
                 .success( function(user) {
                     if(user != '0') {
                         vm.user = user;
+
                     }
                 })
                 .error(function(error){

@@ -3,9 +3,11 @@
         .module("ConcertFinder")
         .controller("LoginController", LoginController)
         .controller("RegisterController", RegisterController)
-        .controller("ProfileController", ProfileController);
+        .controller("ProfileController", ProfileController)
+        .controller("AdminController", AdminController);
 
-    function LoginController($location, UserService, $rootScope) {
+
+    function LoginController($location, UserService) {
         var vm = this;
         vm.login = login;
 
@@ -14,10 +16,22 @@
 
             promise
                 .success( function(user) {
+                    if(user == "0") {
+                        Materialize.toast('Unauthorized!', 4000);
+                        return;
+                    }
+
                     if(user) {
-                        $location.url("/"+ user._id);
+                        if(user.role == "DEFAULT") {
+                            $location.url("/"+ user._id);
+                        }
+                        else {
+                            $location.url("/adminuser/admin");
+                        }
+
                     } else {
-                        vm.error = "No such user";
+                        Materialize.toast('No such user!', 4000);
+
                     }
                 })
                 .error(function(error){
@@ -58,7 +72,7 @@
             });
     }
 
-    function RegisterController($location, UserService, $rootScope) {
+    function RegisterController($location, UserService) {
 
         var vm = this;
         vm.register = register;
@@ -97,5 +111,59 @@
             }
 
         }
+    }
+
+    function AdminController(UserService) {
+
+        var vm = this;
+        vm.deleteUser = deleteUser;
+
+        function deleteUser(user) {
+
+            var promise =  UserService.deleteUser(user._id);
+
+            promise
+                .success( function(user) {
+                    Materialize.toast('Deleted !', 2000);
+
+                    init();
+                })
+                .error(function(error){
+                    Materialize.toast('Error ! ' + error, 2000);
+                });
+        }
+
+        init();
+
+        function init() {
+            var promise =  UserService.checkLogin();
+            promise
+                .success( function(user) {
+                    if(user != '0') {
+                        vm.user = user;
+                    }
+                })
+                .error(function(error){
+                    console.log("error "+ error);
+                    vm.error("You're not authorized !");
+                });
+
+            var promise2 =  UserService.getUserList();
+            promise2
+                .success( function(users) {
+                    if(users) {
+                        vm.users = users;
+                    }
+                })
+                .error(function(error){
+                    console.log("error "+ error);
+                    vm.error("You're not authorized !");
+                });
+
+        }
+
+
+
+
     }
 })();

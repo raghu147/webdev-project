@@ -57,9 +57,66 @@ module.exports = function(app, model) {
             });
     }
 
+    app.get("/api/admin/", adminListUsers);
+    app.post("/api/adminDelete", adminDeleteUser);
+
+    function adminListUsers(req, res) {
+
+        if(req.user == undefined || req.user.role != 'ADMIN')
+            res.sendStatus(403);
+
+        model
+            .userModel
+            .adminListUsers()
+            .then(
+                function (users) {
+                    var response = [];
+                    for(var i = 0; i < users.length; i++) {
+                        if(!users[i].isDeleted) {
+                            response.push(users[i]);
+                        }
+                    }
+
+                    res.send(response);
+                });
+
+    }
+
+    function adminDeleteUser(req, res) {
+
+        if(req.user == undefined || req.user.role != 'ADMIN')
+            res.sendStatus(403);
+
+        var userId = req.body.userId;
+
+        model
+            .userModel.findUserById(userId)
+            .then(function (user) {
+                if(user.role === "ADMIN") {
+                    res.sendStatus(403);
+                    return;
+                }
+                else {
+                    model
+                        .userModel
+                        .adminDeleteUser(userId)
+                        .then(
+                            function (status) {
+                                res.sendStatus(200);
+                            });
+                }
+            });
+    }
+
     function login(req, res) {
         var  user = req.user;
-        res.send(user);
+        if(!user.isDeleted)
+        {
+            res.send(user);
+        }
+        else {
+            res.send("0");
+        }
     }
 
     function logout(req, res) {
@@ -83,7 +140,6 @@ module.exports = function(app, model) {
 
     passport.serializeUser(serializeUser);
 
-
     function serializeUser(user, done) {
         done(null, user);
     }
@@ -94,7 +150,7 @@ module.exports = function(app, model) {
             .userModel
             .findUserById(user._id)
             .then(function (user) {
-                    done(null, user);
+                        done(null, user);
                 },
                 function (err) {
                     done(err, null);
@@ -128,7 +184,6 @@ module.exports = function(app, model) {
 
     }
 
-
     function pastConcerts(req, res) {
 
         var userId = req.params.userId;
@@ -137,7 +192,18 @@ module.exports = function(app, model) {
             .findConcertsForUser(userId)
             .then(
                 function (user) {
-                    res.json(user.myConcerts);
+
+                    var pastconcerts = [];
+                    for(var i =0; i < user.myConcerts.length; i++) {
+
+                        var dateTime = new Date(user.myConcerts[i].dateTime);
+                        var currentDate = new Date();
+
+                        if(dateTime < currentDate) {
+                            pastconcerts.push(user.myConcerts[i]);
+                        }
+                    }
+                    res.json(pastconcerts);
                 }
             );
     }
@@ -149,7 +215,18 @@ module.exports = function(app, model) {
             .findConcertsForUser(userId)
             .then(
                 function (user) {
-                    res.json(user.myConcerts);
+
+                    var concerts = [];
+                    for(var i =0; i < user.myConcerts.length; i++) {
+
+                        var dateTime = new Date(user.myConcerts[i].dateTime);
+                        var currentDate = new Date();
+
+                        if(dateTime >= currentDate) {
+                            concerts.push(user.myConcerts[i]);
+                        }
+                    }
+                    res.json(concerts);
                 }
             );
     }
@@ -163,7 +240,7 @@ module.exports = function(app, model) {
                 .then(
                     function (user){
 
-                        if(user) {
+                        if(user && !user.isDeleted) {
                             res.send(user);
                         }
                         else {

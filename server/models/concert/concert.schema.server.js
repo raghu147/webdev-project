@@ -6,6 +6,7 @@ module.exports = function() {
         users: [{type:mongoose.Schema.Types.ObjectId, ref:'UserModel'}],
         title: String,
         venue_name: String,
+        dateTime : String,
         date: String,
         time: String,
         artist: String,

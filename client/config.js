@@ -54,32 +54,14 @@
                 controller: "PeopleDetailsController",
                 controllerAs: "model"
             })
+            .when("/adminuser/admin", {
+                templateUrl : "views/user/admin.view.client.html",
+                controller: "AdminController",
+                controllerAs: "model"
+            })
             .otherwise({
                 redirectTo: "/"
             });
-
-
-
-
-        // function checkLogin($q, UserService, $location ) {
-        //
-        //     var deferred = $q.defer();
-        //
-        //     UserService
-        //         .checkLogin()
-        //         .success(
-        //             function(user) {
-        //                 if(user != '0') {
-        //                     deferred.resolve();
-        //                 }
-        //                 else {
-        //                     deferred.reject();
-        //                     $location.url("/login");
-        //                 }
-        //
-        //             }
-        //         );
-        //     return deferred.promise;
-        // }
+        
     }
 })();
