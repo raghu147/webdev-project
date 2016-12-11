@@ -13,6 +13,7 @@
     "multer": "^1.2.0",
     "node-rest-client": "^2.0.1",
     "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {},

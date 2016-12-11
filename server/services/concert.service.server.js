@@ -2,9 +2,8 @@ module.exports = function (app, model) {
 
 
     app.post("/api/concert/rsvp/", doRSVP);
-    app.get("/api/concert/:cid", findConcertById);
+    app.get("/api/concert/:cid", getConcertById);
     app.get("/api/concertsForUser/", findConcertsForUser);
-    app.get("/api/concertDetail/:cid", getConcertDetail);
     app.post("/api/searchConcerts/", searchConcerts);
     app.get("/api/usersForConcert/:cid", getUsersForConcert);
 
@@ -16,7 +15,7 @@ module.exports = function (app, model) {
 
         model.concertModel.findUsersForConcert(concertId)
             .then(function (concert) {
-                if(concert == null)
+                if (concert == null)
                     res.send('0');
                 else
                     res.json(concert.users);
@@ -30,51 +29,30 @@ module.exports = function (app, model) {
         var userId = rsvpObj.userId;
         var concert = rsvpObj.concert;
 
+
         model
             .concertModel
-            .findConcertsForUser(userId)
-            .then(
-                function (user) {
-
-                    if(user.myConcerts.length > 0)
-                    {
-                        for(var i = 0 ; i < user.myConcerts.length; i++) {
-
-                            if(user.myConcerts[i].cid.toString() === concert.id)
-                                return;
-                        }
-                    }
-
-
-                    model
-                        .concertModel
-                        .findConcertById(concert.cid)
-                        .then(function(concertObj) {
-                            if(concertObj != null) {
-
-                                model.concertModel.addConcertForUser(userId, concertObj)
-                                    .then( function(newConcertObj) {
-                                                res.sendStatus(200) ;
-                                            });
-                            }
-                            else {
-
-                                model.concertModel.createConcert(concert)
-                                    .then( function(newConcertObj){
-                                        model
-                                            .concertModel
-                                            .addConcertForUser(userId, newConcertObj)
-                                            .then(function () {
-                                                res.sendStatus(200) ;
-                                            });
-                                    });
-                            }
-                        })
-
-
+            .findConcertById(concert.cid)
+            .then(function (concertObj) {
+                if (concertObj != null) {
+                    model.concertModel.addConcertForUser(userId, concertObj)
+                        .then(function (newConcertObj) {
+                            res.sendStatus(200);
+                        });
                 }
-            );
+                else {
 
+                    model.concertModel.createConcert(concert)
+                        .then(function (newConcertObj) {
+                            model
+                                .concertModel
+                                .addConcertForUser(userId, newConcertObj)
+                                .then(function () {
+                                    res.sendStatus(200);
+                                });
+                        });
+                }
+            })
 
     }
 
@@ -99,6 +77,7 @@ module.exports = function (app, model) {
                 var apiResponse = JSON.parse(body);
                 if (apiResponse.events == null || apiResponse.events == undefined) {
                     console.log("null");
+                    resp.send("0");
                     return;
                 }
                 var concerts = apiResponse.events.event;
@@ -106,7 +85,7 @@ module.exports = function (app, model) {
 
                 console.log(concerts.length);
 
-                for (i = 0; i < concerts.length; i++) {
+                for (var i in concerts) {
 
                     var concert = concerts[i];
                     var concertObj = {};
@@ -129,7 +108,7 @@ module.exports = function (app, model) {
         });
     }
 
-    function getConcertDetail(req, resp) {
+    function getConcertById(req, resp) {
 
         var id = req.params.cid;
         var URL = "http://api.eventful.com/json/events/get?app_key=sC5S8M8pwQpBW5t2&image_sizes=block&id=" + id;
@@ -167,19 +146,22 @@ module.exports = function (app, model) {
                 concertObj.isGoing = false;
 
 
-                if(req.user) {
+                if (req.user) {
 
                     var myConcerts = req.user.myConcerts;
                     model.concertModel.findConcertById(concertObj.id)
                         .then(function (dbConcertObj) {
 
-                            for(var i = 0; i < myConcerts.length; i ++) {
+                            if (dbConcertObj != null) {
+                                for (var i in myConcerts) {
 
-                                if(myConcerts[i].toString() === dbConcertObj._id.toString()) {
-                                    concertObj.isGoing = true;
-                                    break;
+                                    if (myConcerts[i].toString() === dbConcertObj._id.toString()) {
+                                        concertObj.isGoing = true;
+                                        break;
+                                    }
                                 }
                             }
+
 
                             resp.send(concertObj);
                         })
@@ -209,7 +191,5 @@ module.exports = function (app, model) {
             );
     }
 
-    function findConcertById(req, res) {
 
-    }
 }

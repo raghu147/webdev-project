@@ -13,6 +13,10 @@ module.exports = function() {
         privateProfile: Boolean,
         myConcerts: [{type:mongoose.Schema.Types.ObjectId, ref:'ConcertModel'}],
         follows: [{type:mongoose.Schema.Types.ObjectId, ref:'UserModel'}],
+        facebook: {
+            id:    String,
+            token: String
+        },
         isDeleted:Boolean
 
     }, {collection: "user"});

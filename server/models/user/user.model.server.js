@@ -15,13 +15,18 @@ module.exports = function() {
         followUser: followUser,
         setModel: setModel,
         adminListUsers: adminListUsers,
-        adminDeleteUser: adminDeleteUser
+        adminDeleteUser: adminDeleteUser,
+        findUserByFacebookId: findUserByFacebookId,
     };
 
     return api;
 
     function setModel(_model) {
         model  = _model;
+    }
+
+    function findUserByFacebookId(facebookId) {
+        return UserModel.findOne({'facebook.id': facebookId});
     }
 
     function followUser(userObj, personObj){

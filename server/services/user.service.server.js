@@ -2,6 +2,7 @@ module.exports = function(app, model) {
 
 
     var passport = require('passport');
+    var FacebookStrategy = require('passport-facebook').Strategy;
     var LocalStrategy = require('passport-local').Strategy;
     var cookieParser = require('cookie-parser');
     var session = require('express-session');
@@ -20,6 +21,48 @@ module.exports = function(app, model) {
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 
+    var facebookConfig = {
+        clientID     : process.env.FACEBOOK_CLIENT_ID,
+        clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL  : process.env.FACEBOOK_CALLBACK_URL
+    };
+
+    passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
+
+    function facebookStrategy(token, refreshToken, profile, done) {
+        model.userModel.findUserByFacebookId(profile.id).then(
+            function(user) {
+                if(user) {
+                    return done(null, user);
+                } else {
+                    var displayName = profile.displayName.split(" ");
+
+                    var newUser = {
+                        username:  displayName[0],
+                        firstName: displayName[0],
+                        lastName:  displayName[1],
+                        facebook: {
+                            id:    profile.id,
+                            token: token
+                        }
+                    };
+                    return model.userModel.createUser(newUser);
+                }
+            },
+            function(err) {
+                if (err) { return done(err); }
+            }
+        )
+            .then(
+                function(user){
+                    return done(null, user);
+                },
+                function(err){
+                    if (err) { return done(err); }
+                }
+            );
+    }
+
 
     app.get("/api/user" , findUser);
     app.get("/api/user/:userId" , findUserById);
@@ -34,6 +77,12 @@ module.exports = function(app, model) {
     app.post("/api/login", passport.authenticate('local'),  login);
     app.post("/api/logout", logout);
     app.get ("/api/loggedin",loggedin);
+    app.get ('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect: '/#',
+            failureRedirect: '/login'
+        }));
 
     function followuser(req, res){
         var userId = req.params.userId;

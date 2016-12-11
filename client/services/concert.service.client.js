@@ -52,7 +52,7 @@
             return $http.post("/api/searchConcerts", obj);
         }
         function getConcertDetail(id) {
-            return $http.get("/api/concertDetail/"+id);
+            return $http.get("/api/concert/"+id);
         }
     }
 

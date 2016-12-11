@@ -18,11 +18,15 @@
                        class="form-control"
                        placeholder="Password"/>
                 <input type="password"
+                       ng-model="model.verify"
                        class="form-control"
                        placeholder="Verify password"/>
             </div>
             <div class="row">
-                <a class="waves-effect waves-light btn display_block" ng-click="model.register(model.username, model.password)" >Register</a>
+                <a ng-disabled="!model.username.length || !model.password.length
+                             || !model.verify.length   ||  model.password !== model.verify"
+
+                   class="waves-effect waves-light btn display_block" ng-click="model.register(model.username, model.password)" >Register</a>
             </div>
             <div class="row">
                 <a class="waves-effect waves-light btn display_block" href="#/login">Cancel</a>
