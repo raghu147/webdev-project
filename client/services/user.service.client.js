@@ -31,18 +31,16 @@
             return $http.post("/api/logout");
 
         }
-        function checkLogin(user) {
+        function checkLogin() {
 
-            return $http.post("/api/checkLogin");
+            return $http.get("/api/loggedin");
         }
 
         function login(username, password) {
-            var user = {
-                username: username,
-                password: password
-            }
+            var user = {username: username, password: password};
             return $http.post("/api/login", user);
         }
+
         function findUserByUsername(username) {
             var url = '/api/user?username=' + username;
             return $http.get(url);

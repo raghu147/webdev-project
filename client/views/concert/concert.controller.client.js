@@ -5,20 +5,19 @@
         .controller("MyConcertsController", MyConcertsController);
 
 
-    function MyConcertsController($routeParams, $rootScope, ConcertService, $location) {
+    function MyConcertsController($routeParams, ConcertService, $location, UserService) {
 
         var vm = this;
-        vm.upcomingConcerts = upcomingConcerts;
+        vm.loadUpcomingConcerts = loadUpcomingConcerts;
         vm.getPastConcertsForUser = getPastConcertsForUser;
-        vm.user = $rootScope.user;
         vm.profileClick = profileClick;
-
+        vm.concerts = undefined;
 
         var userId = $routeParams.uid;
 
-        upcomingConcerts();
+        loadUpcomingConcerts();
 
-        function upcomingConcerts() {
+        function loadUpcomingConcerts() {
 
             var promise = ConcertService.getConcertsForUser(userId);
 
@@ -33,8 +32,10 @@
 
         function profileClick() {
             $('.button-collapse').sideNav('hide');
-            $location.url("/user/" + vm.user._id);
+            $location.url("/user/" + userId);
         }
+
+
 
         function getPastConcertsForUser() {
 
@@ -49,19 +50,27 @@
                 });
         }
 
+        var promise =  UserService.checkLogin();
+        promise
+            .success( function(user) {
+                if(user != '0') {
+                    vm.user = user;
+                }
+            })
+            .error(function(error){
+                console.log("error "+ error);
+            });
+
     }
 
-    function ConcertDetailController($sce, $routeParams, ConcertService, $rootScope, $location) {
+    function ConcertDetailController($sce, $routeParams, ConcertService, $location, UserService) {
+
         var vm = this;
-
-
         vm.checkSafeHtml = checkSafeHtml;
         vm.doRSVP = doRSVP;
         vm.profileClick = profileClick;
-        vm.user = $rootScope.user;
         vm.myConcerts = myConcerts;
         vm.concert = undefined;
-
 
         function myConcerts() {
             $('.button-collapse').sideNav('hide');
@@ -75,14 +84,13 @@
 
         function doRSVP() {
 
-
             var promise = ConcertService.doRSVP(vm.user._id, vm.concert);
             promise
                 .success( function(res) {
-                    $location.url("/"+ vm.user._id);
+                    $location.url("/");
+                    Materialize.toast('RSVPed!', 4000);
                 })
                 .error(function(error){
-                    $location.url("/"+ vm.loggedinUserId);
                     console.log("error "+ error);
                 });
         }
@@ -100,6 +108,17 @@
             promise
                 .success( function(concert) {
                 vm.concert = concert;
+                })
+                .error(function(error){
+                    console.log("error "+ error);
+                });
+
+            var promise2 =  UserService.checkLogin();
+            promise2
+                .success( function(user) {
+                    if(user != '0') {
+                        vm.user = user;
+                    }
                 })
                 .error(function(error){
                     console.log("error "+ error);

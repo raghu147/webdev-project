@@ -1,6 +1,26 @@
 module.exports = function(app, model) {
 
 
+    var passport = require('passport');
+    var LocalStrategy = require('passport-local').Strategy;
+    var cookieParser = require('cookie-parser');
+    var session = require('express-session');
+
+    app.use( session({
+        secret: 'this is a secret',
+        resave: true,
+        saveUninitialized: true
+
+    }));
+
+    app.use(cookieParser());
+    app.use(passport.initialize());
+    app.use(passport.session());
+    passport.use(new LocalStrategy(localStrategy));
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+
+
     app.get("/api/user" , findUser);
     app.get("/api/user/:userId" , findUserById);
     app.get("/api/user/:userId/concerts", findConcertsForUser);
@@ -9,6 +29,82 @@ module.exports = function(app, model) {
     app.post("/api/user", createUser);
     app.put("/api/user/:userId" , updateUser);
     app.delete("/api/user/:userId", deleteUser);
+
+    app.post("/api/login", passport.authenticate('local'),  login);
+    app.post("/api/logout", logout);
+    app.get ("/api/loggedin",loggedin);
+
+    function login(req, res) {
+        var  user = req.user;
+        res.send(user);
+    }
+
+    function logout(req, res) {
+        req.logOut();
+        res.send(200);
+    }
+
+    function loggedin(req, res) {
+        res.send(req.isAuthenticated() ? req.user : '0');
+    }
+
+    var auth = authorized;
+
+    function authorized (req, res, next) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        } else {
+            next();
+        }
+    };
+
+    passport.serializeUser(serializeUser);
+
+
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+
+        model
+            .userModel
+            .findUserById(user._id)
+            .then(function (user) {
+                    done(null, user);
+                },
+                function (err) {
+                    done(err, null);
+                });
+
+    }
+
+    var LocalStrategy = require('passport-local').Strategy;
+
+    passport.use(new LocalStrategy(localStrategy));
+
+
+    function localStrategy(username, password, done) {
+
+        model.userModel
+            .findUserByUsername(username)
+            .then(
+                function (user){
+
+                    if(user.username === username && user.password === password) {
+                        return done(null, user);
+                    }
+                    else {
+                        return done(null, false);
+                    }
+                },
+                function (error) {
+
+                }
+            );
+
+    }
+
 
     function pastConcerts(req, res) {
 
@@ -141,24 +237,21 @@ module.exports = function(app, model) {
     function createUser(req, res) {
 
         var user = req.body;
-        if (isNotEmpty(user.username) &&
-            isNotEmpty(user.password))
-
-            model.userModel
-                .createUser(user)
-                .then(
-                    function (newUser) {
-                        res.send(newUser);
-                    },
-
-                    function (error) {
-                        res.sendStatus(400).send(error);
+        model.userModel
+            .createUser(user)
+            .then(
+                function(newUser){
+                    if(newUser){
+                        req.login(newUser, function(err) {
+                            if(err) {
+                                res.status(400).send(err);
+                            } else {
+                                res.json(newUser);
+                            }
+                        });
                     }
-                );
-
+                }
+            );
     }
 
-    function isNotEmpty(val) {
-        return !( val === null || val === "" || val === undefined );
-    }
 };

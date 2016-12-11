@@ -2,10 +2,10 @@
     <div class="col m5 l3 black-color">
         <ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
     </div>
-    <div class="col s12 m7 l9">
+    <div ng-if="model.concerts !== undefined && model.concerts.length > 0" class="col s12 m7 l9">
         <div class="col s12">
             <ul class="tabs">
-                <li class="tab col s3"><a ng-click="model.upcomingConcerts()">Upcoming</a></li>
+                <li class="tab col s3"><a ng-click="model.loadUpcomingConcerts()">Upcoming</a></li>
                 <li class="tab col s3"><a ng-click="model.getPastConcertsForUser()" >Past</a></li>
             </ul>
         </div>

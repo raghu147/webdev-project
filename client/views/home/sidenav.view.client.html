@@ -23,7 +23,17 @@
 
     function signout() {
         $('.button-collapse').sideNav('hide');
-        window.location = "/";
+        $.ajax({
+            type: "POST",
+            url: "/api/logout",
+            data:null,
+            success: function(obj){
+                console.log("done !"+obj);
+                window.location = "/";
+            },
+        });
+
+
     }
 
     function homeClick() {
