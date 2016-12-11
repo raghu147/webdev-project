@@ -3,13 +3,14 @@
         .module("ConcertFinder")
         .controller("HomeController", HomeController)
 
-    function HomeController($location, ConcertService, UserService, $rootScope) {
+    function HomeController($location, $routeParams, ConcertService, UserService, $rootScope) {
         var vm = this;
 
         vm.profileClick = profileClick;
         vm.search = search;
         vm.range = 10;
         vm.myConcerts = myConcerts;
+        vm.user = $rootScope.user;
 
         function myConcerts() {
             $('.button-collapse').sideNav('hide');
@@ -54,5 +55,4 @@
 
 
     }
-
 })();

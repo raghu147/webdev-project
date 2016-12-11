@@ -23,7 +23,7 @@
 
             promise
                 .success(function(concerts) {
-                    vm.concerts = concerts;
+                    vm.person.concerts = concerts;
                 })
                 .error(function(error){
                     console.log("error "+ error);
@@ -70,7 +70,7 @@
         vm.doRSVP = doRSVP;
         vm.profileClick = profileClick;
         vm.myConcerts = myConcerts;
-        vm.concert = undefined;
+        // vm.concert = undefined;
 
         function myConcerts() {
             $('.button-collapse').sideNav('hide');

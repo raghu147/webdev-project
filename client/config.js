@@ -32,7 +32,7 @@
             .when("/user/:uid", {
                 templateUrl : "views/user/profile.view.client.html",
                 controller: "ProfileController",
-                controllerAs: "model",
+                controllerAs: "model"
             })
             .when("/concert/:cid", {
                 templateUrl : "views/concert/concertDetail.view.client.html",
@@ -42,6 +42,16 @@
             .when("/user/:uid/concerts", {
                 templateUrl : "views/concert/myConcerts.view.client.html",
                 controller: "MyConcertsController",
+                controllerAs: "model"
+            })
+            .when("/user/:uid/people", {
+                templateUrl : "views/following/people-list.view.client.html",
+                controller: "PeopleController",
+                controllerAs: "model"
+            })
+            .when("/user/:uid/people/:pid", {
+                templateUrl : "views/following/people-details.view.client.html",
+                controller: "PeopleController",
                 controllerAs: "model"
             })
             .otherwise({

@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="container">
+        <!--User Details-->
+        <div class="row">
+
+        </div>
+        <!--Concerts User is going to-->
+        <div class="row">
+            <ul ng-if="model.concerts">
+                <!-- Loading Animation -->
+                <div class="loading" data-loading>
+                    <!--<double-bounce-spinner></double-bounce-spinner>-->
+                    <wave-spinner></wave-spinner>
+                </div>
+                <div ng-repeat="concert in model.person.concerts">
+                    <div class="card sidebar-background darken-1">
+                        <div class="card-content white-text">
+                            <div class="col s5 m4">
+                                <!--<i ng-if="concert.imageURL == undefined" class="material-icons circle red">play_arrow</i>-->
+                                <img ng-if="concert.imageURL == undefined" src="../../images/Music.png" class="circle default-img" >
+                                <img ng-if="concert.imageURL != undefined" ng-src="{{concert.imageURL}}" alt="" class="circle" />
+                            </div>
+                            <div class="col s7 m8">
+                                <div class="row">
+                                    <h5>{{concert.title}}</h5>
+                                </div>
+                                <div class="row">
+                                    <p>On : {{concert.date}} At: {{concert.time}}</p>
+                                </div>
+                                <div class="row">
+                                    <p>{{concert.venue_name}}</p>
+                                </div>
+                            </div>
+                            <a class="waves-effect waves-light btn display_block" href="#/concert/{{concert._id}}">Event Details</a>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
