@@ -173,7 +173,11 @@ textarea:focus, input:focus {
 
 
 ::-webkit-input-placeholder {
-    color: #e30013;
+    color: grey;
+}
+
+label {
+    color: #e30013; !important;
 }
 
 :-moz-placeholder { /* Firefox 18- */
