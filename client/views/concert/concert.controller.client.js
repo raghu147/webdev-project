@@ -71,6 +71,9 @@
         vm.doFollow = doFollow;
         vm.profileClick = profileClick;
         vm.myConcerts = myConcerts;
+
+        vm.isFollowing = isFollowing;
+
         // vm.concert = undefined;
 
         function myConcerts() {
@@ -83,6 +86,9 @@
             $location.url("/user/" + vm.user._id);
         }
 
+        function isFollowing(personId) {
+            return (vm.user.follows.indexOf(personId) > -1);
+        }
         function doRSVP() {
 
             var promise = ConcertService.doRSVP(vm.user._id, vm.concert);
@@ -101,6 +107,7 @@
             promise
                 .success(function(){
                     Materialize.toast('Following user!', 4000);
+                    init();
                 })
                 .error(function(error){
                     console.log("error:"+error);
@@ -135,7 +142,13 @@
                         promise3
                             .success(function(users){
                                 if(users != '0'){
-                                    vm.going = users;
+
+                                    for(var u in users) {
+                                        if(users[u]._id != vm.user._id) {
+                                            vm.going.push(users[u]);
+                                        }
+                                    }
+
                                 }
                             })
                             .error(function(error){
