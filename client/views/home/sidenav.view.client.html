@@ -3,14 +3,15 @@
     <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 </div>
 <ul id="slide-out" class="side-nav fixed">
-    <div class="background">
+    <li>
         <img src="https://unsplash.it/100" class="circle">
-    </div>
+    </li>
     <li ng-if="model.user" ><a ng-click="model.profileClick()"> @{{model.user.username}}</a></li>
     <li><a onclick="homeClick()" >Home</a></li>
     <li ng-if="model.user == undefined" ><a onclick='loginClick()' > Login</a></li>
     <li><a href="#/about">About</a></li>
     <li ng-if="model.user"><a ng-click="model.myConcerts()">My concerts</a></li>
+    <li ng-if="model.user"><a href="#/user/{{model.user._id}}/people">People</a></li>
     <li ng-if="model.user" ><a onclick='signout()'>Signout</a></li>
 </ul>
 
@@ -30,7 +31,7 @@
             success: function(obj){
                 console.log("done !"+obj);
                 window.location = "/";
-            },
+            }
         });
 
 

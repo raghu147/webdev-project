@@ -6,8 +6,20 @@ module.exports = function (app, model) {
     app.get("/api/concertsForUser/", findConcertsForUser);
     app.get("/api/concertDetail/:cid", getConcertDetail);
     app.post("/api/searchConcerts/", searchConcerts);
+    app.get("/api/usersForConcert/:cid", getUsersForConcert);
 
     var http = require('http');
+
+    function getUsersForConcert(req, res) {
+
+        var concertId = req.params.cid;
+
+        model.concertModel.findUsersForConcert(concertId)
+            .then(function (concert) {
+                res.json(concert.users);
+            });
+
+    }
 
     function doRSVP(req, res) {
 

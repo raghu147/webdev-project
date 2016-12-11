@@ -29,10 +29,33 @@ module.exports = function(app, model) {
     app.post("/api/user", createUser);
     app.put("/api/user/:userId" , updateUser);
     app.delete("/api/user/:userId", deleteUser);
+    app.post("/api/user/:userId/follow/:personId", followuser);
 
     app.post("/api/login", passport.authenticate('local'),  login);
     app.post("/api/logout", logout);
     app.get ("/api/loggedin",loggedin);
+
+    function followuser(req, res){
+        var userId = req.params.userId;
+        var personId = req.params.personId;
+        model
+            .userModel
+            .findUserById(userId)
+            .then(function (userObj) {
+                model
+                    .userModel
+                    .findUserById(personId)
+                    .then(function(personObj){
+                        model.userModel.followUser(userObj, personObj)
+                            .then(function(){
+                                res.sendStatus(200);
+                            })
+                    })
+            },
+            function (err) {
+                done(err, null);
+            });
+    }
 
     function login(req, res) {
         var  user = req.user;

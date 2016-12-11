@@ -22,7 +22,7 @@ module.exports = function() {
 
     function findUsersForConcert(concertId) {
 
-        return findConcertById(concertId).populate("users").exec();
+        return findConcertById(concertId).populate("users", "username").exec();
     }
 
     function addConcertForUser (userId, concert) {

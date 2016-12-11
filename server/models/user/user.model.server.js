@@ -11,13 +11,19 @@ module.exports = function() {
         findUserByCredentials: findUserByCredentials,
         deleteUser: deleteUser,
         findUserByUsername: findUserByUsername,
-        setModel: setModel
+        setModel: setModel,
+        followUser: followUser
     };
 
     return api;
 
     function setModel(_model) {
         model  = _model;
+    }
+
+    function followUser(userObj, personObj){
+        userObj.follows.push(personObj);
+        return userObj.save();
     }
 
     function createUser(user) {

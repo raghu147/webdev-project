@@ -68,6 +68,7 @@
         var vm = this;
         vm.checkSafeHtml = checkSafeHtml;
         vm.doRSVP = doRSVP;
+        vm.doFollow = doFollow;
         vm.profileClick = profileClick;
         vm.myConcerts = myConcerts;
         // vm.concert = undefined;
@@ -92,6 +93,17 @@
                 })
                 .error(function(error){
                     console.log("error "+ error);
+                });
+        }
+
+        function doFollow(user){
+            var promise = ConcertService.doFollow(vm.user._id, user);
+            promise
+                .success(function(){
+                    Materialize.toast('Following user!', 4000);
+                })
+                .error(function(error){
+                    console.log("error:"+error);
                 });
         }
 
@@ -122,6 +134,15 @@
                 })
                 .error(function(error){
                     console.log("error "+ error);
+                });
+
+            var promise3 = ConcertService.getUsersForConcert(concertId);
+            promise3
+                .success(function(users){
+                   vm.going = users;
+                })
+                .error(function(error){
+                    console.log("error:"+error);
                 });
         }
     }

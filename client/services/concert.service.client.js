@@ -10,14 +10,20 @@
             getConcertDetail: getConcertDetail,
             searchConcerts: searchConcerts,
             doRSVP: doRSVP,
+            doFollow: doFollow,
             getConcertsForUser: getConcertsForUser,
-            getPastConcertsForUser: getPastConcertsForUser
+            getPastConcertsForUser: getPastConcertsForUser,
+            getUsersForConcert: getUsersForConcert
 
         };
         return api;
 
         function getPastConcertsForUser(userId) {
             return $http.get("/api/user/"+userId+"/pastConcerts/");
+        }
+
+        function getUsersForConcert(concertId){
+            return $http.get("/api/usersForConcert/"+concertId);
         }
 
         function getConcertsForUser(userId) {
@@ -28,9 +34,13 @@
             concert.cid = concert.id;
             var rsvp = {
                 userId: userId,
-                concert: concert,
-            }
+                concert: concert
+            };
             return $http.post("/api/concert/rsvp", rsvp);
+        }
+
+        function doFollow(userId, person){
+            return $http.post("/api/user/"+userId+"/follow/"+person._id);
         }
 
         function searchConcerts(location, range) {

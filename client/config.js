@@ -46,12 +46,12 @@
             })
             .when("/user/:uid/people", {
                 templateUrl : "views/following/people-list.view.client.html",
-                controller: "PeopleController",
+                controller: "PeopleListController",
                 controllerAs: "model"
             })
             .when("/user/:uid/people/:pid", {
                 templateUrl : "views/following/people-details.view.client.html",
-                controller: "PeopleController",
+                controller: "PeopleDetailsController",
                 controllerAs: "model"
             })
             .otherwise({

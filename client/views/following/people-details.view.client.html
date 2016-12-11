@@ -1,10 +1,12 @@
 <div class="row">
-    <div class="container">
-        <!--User Details-->
+    <!--User Details-->
+    <div class="col m5 l3">
+        <ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
+    </div>
+    <div class="col m8 l9 s12">
         <div class="row">
-
+            <h5>Going To:</h5>
         </div>
-        <!--Concerts User is going to-->
         <div class="row">
             <ul ng-if="model.concerts">
                 <!-- Loading Animation -->
@@ -12,7 +14,7 @@
                     <!--<double-bounce-spinner></double-bounce-spinner>-->
                     <wave-spinner></wave-spinner>
                 </div>
-                <div ng-repeat="concert in model.person.concerts">
+                <div ng-repeat="concert in model.concerts">
                     <div class="card sidebar-background darken-1">
                         <div class="card-content white-text">
                             <div class="col s5 m4">

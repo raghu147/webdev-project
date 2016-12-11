@@ -4,11 +4,10 @@
         .controller("PeopleDetailsController", PeopleDetailsController)
         .controller("PeopleListController", PeopleListController);
 
-    function PeopleListController($location, $routeParams, ConcertService, UserService, $rootScope){
+    function PeopleListController($location, $routeParams, UserService){
         var vm = this;
         vm.myConcerts = myConcerts;
         vm.profileClick = profileClick;
-        vm.showUserDetails = showUserDetails;
 
         function init() {
             var userId = $routeParams['uid'];
@@ -19,7 +18,7 @@
                     .success( function(user) {
                         if(user) {
                             vm.user = user;
-
+                            getListOfPeople(user);
                         }
                     })
                     .error(function(error){
@@ -28,6 +27,19 @@
             }
         }
         init();
+
+        function getListOfPeople(user){
+            vm.people = [];
+            for(var i=0; i< user.follows.length; i++) {
+                var promise = UserService.findUserById(user.follows[i]+"");
+                promise
+                    .success(function(user){
+                        if(user){
+                            vm.people.push(user);
+                        }
+                    })
+            }
+        }
 
         function myConcerts() {
             $('.button-collapse').sideNav('hide');
@@ -40,7 +52,7 @@
         }
     }
 
-    function PeopleDetailsController($location, $routeParams, ConcertService, UserService, $rootScope){
+    function PeopleDetailsController($location, $routeParams, ConcertService, UserService){
         var vm = this;
         vm.myConcerts = myConcerts;
         vm.profileClick = profileClick;
@@ -56,6 +68,7 @@
                     .success( function(user) {
                         if(user) {
                             vm.person = user;
+                            upcomingConcerts(user._id);
 
                         }
                     })
