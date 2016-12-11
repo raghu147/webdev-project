@@ -60,11 +60,22 @@
         vm.user = $routeParams['uid'];
 
         function init() {
+            var promise1 =  UserService.checkLogin();
+            promise1
+                .success( function(user) {
+                    if(user != '0') {
+                        vm.user = user;
+                    }
+                })
+                .error(function(error){
+                    console.log("error "+ error);
+                });
+
             var personId = $routeParams['pid'];
             if(personId != undefined) {
-                var promise =  UserService.findUserById(personId+"");
+                var promise2 =  UserService.findUserById(personId+"");
 
-                promise
+                promise2
                     .success( function(user) {
                         if(user) {
                             vm.person = user;

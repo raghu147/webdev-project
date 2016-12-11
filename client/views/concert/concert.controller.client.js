@@ -116,6 +116,7 @@
         function init() {
             var concertId = $routeParams.cid;
             var promise = ConcertService.getConcertDetail(concertId);
+            vm.going = [];
 
             promise
                 .success( function(concert) {
@@ -130,19 +131,20 @@
                 .success( function(user) {
                     if(user != '0') {
                         vm.user = user;
+                        var promise3 = ConcertService.getUsersForConcert(concertId);
+                        promise3
+                            .success(function(users){
+                                if(users != '0'){
+                                    vm.going = users;
+                                }
+                            })
+                            .error(function(error){
+                                console.log("error:"+error);
+                            });
                     }
                 })
                 .error(function(error){
                     console.log("error "+ error);
-                });
-
-            var promise3 = ConcertService.getUsersForConcert(concertId);
-            promise3
-                .success(function(users){
-                   vm.going = users;
-                })
-                .error(function(error){
-                    console.log("error:"+error);
                 });
         }
     }

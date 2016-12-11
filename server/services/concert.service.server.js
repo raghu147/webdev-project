@@ -16,7 +16,10 @@ module.exports = function (app, model) {
 
         model.concertModel.findUsersForConcert(concertId)
             .then(function (concert) {
-                res.json(concert.users);
+                if(concert == null)
+                    res.send('0');
+                else
+                    res.json(concert.users);
             });
 
     }
