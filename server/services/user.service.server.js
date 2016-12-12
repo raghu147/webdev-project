@@ -21,6 +21,27 @@ module.exports = function(app, model) {
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 
+    app.get("/api/user/:userId" , findUserById);
+    app.get("/api/user/:userId/concerts", findConcertsForUser);
+    app.get("/api/user/:userId/pastConcerts", pastConcerts);
+
+    app.post("/api/user", createUser);
+    app.put("/api/user/:userId" , updateUser);
+    app.delete("/api/user/:userId", deleteUser);
+    app.post("/api/user/:userId/follow/:personId", followuser);
+
+    app.post("/api/login", passport.authenticate('local'),  login);
+    app.post("/api/logout", logout);
+    app.get ("/api/loggedin",loggedin);
+    app.get ('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect: '/#',
+            failureRedirect: '/login'
+        }));
+
+
+
     var facebookConfig = {
         clientID     : process.env.FACEBOOK_CLIENT_ID,
         clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
@@ -63,26 +84,6 @@ module.exports = function(app, model) {
             );
     }
 
-
-    app.get("/api/user" , findUser);
-    app.get("/api/user/:userId" , findUserById);
-    app.get("/api/user/:userId/concerts", findConcertsForUser);
-    app.get("/api/user/:userId/pastConcerts", pastConcerts);
-
-    app.post("/api/user", createUser);
-    app.put("/api/user/:userId" , updateUser);
-    app.delete("/api/user/:userId", deleteUser);
-    app.post("/api/user/:userId/follow/:personId", followuser);
-
-    app.post("/api/login", passport.authenticate('local'),  login);
-    app.post("/api/logout", logout);
-    app.get ("/api/loggedin",loggedin);
-    app.get ('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
-    app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
-            successRedirect: '/#',
-            failureRedirect: '/login'
-        }));
 
     function followuser(req, res){
         var userId = req.params.userId;
@@ -161,6 +162,7 @@ module.exports = function(app, model) {
         var  user = req.user;
         if(!user.isDeleted)
         {
+            user.password = undefined;
             res.send(user);
         }
         else {
@@ -170,11 +172,20 @@ module.exports = function(app, model) {
 
     function logout(req, res) {
         req.logOut();
-        res.send(200);
+        res.sendStatus(200);
     }
 
     function loggedin(req, res) {
-        res.send(req.isAuthenticated() ? req.user : '0');
+
+        if(req.isAuthenticated()) {
+            var user =  req.user;
+            user.password = undefined;
+            res.send(user);
+        }
+        else {
+            res.send("0");
+        }
+
     }
 
     var auth = authorized;
@@ -256,6 +267,7 @@ module.exports = function(app, model) {
                 }
             );
     }
+
     function findConcertsForUser(req, res) {
 
         var userId = req.params.userId;
@@ -276,49 +288,6 @@ module.exports = function(app, model) {
                         }
                     }
                     res.json(concerts);
-                }
-            );
-    }
-
-    function findUser(req, res) {
-        var username = req.query.username;
-        var password = req.query.password;
-        if(username && password) {
-            model.userModel
-                .findUserByCredentials(username, password)
-                .then(
-                    function (user){
-
-                        if(user && !user.isDeleted) {
-                            res.send(user);
-                        }
-                        else {
-                            res.send(null);
-                        }
-                    },
-                    function (error) {
-                        res.sendStatus(400).send(error);
-                    }
-                );
-        }
-        else if(req.query.username)
-        {
-            res.send(findUserByUsername(req.query.username));
-        }
-        else res.send('0');
-
-    }
-
-    function findUserByUsername(username) {
-        model.userModel
-            .findUserByUsername(username)
-            .then(
-                function (user) {
-                    res.send(user);
-
-                },
-                function (error) {
-                    res.sendStatus(400).send(error);
                 }
             );
     }
