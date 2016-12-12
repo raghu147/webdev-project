@@ -94,8 +94,8 @@
             var promise = ConcertService.doRSVP(vm.user._id, vm.concert);
             promise
                 .success( function(res) {
-                    $location.url("/");
-                    Materialize.toast('RSVPed!', 4000);
+                    init();
+                    Materialize.toast('Done!', 4000);
                 })
                 .error(function(error){
                     console.log("error "+ error);

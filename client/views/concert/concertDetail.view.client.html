@@ -27,8 +27,12 @@
                                 <p>{{model.concert.address}}</p>
                             </div>
                             <div class="row">
-                                <div ng-if="model.concert.isGoing === false && model.user != undefined" class="col s6"> <a class="btn" ng-click="model.doRSVP()"> RSVP !</a> </div>
-                                <div ng-if="model.concert.isGoing === true" class="col s6"> <a class="btn" >Going!</a> </div>
+
+                                    <a ng-if="model.concert.isGoing === false && model.user != undefined"class="btn" ng-click="model.doRSVP()"> RSVP !</a>
+
+
+                                    <a ng-if="model.concert.isGoing === true"  ng-click="model.doRSVP()" class="btn fa fa-times" > Going!</a>
+
                             </div>
                         </div>
                         <div class="col s12" ng-bind-html="model.checkSafeHtml(model.concert.description)"></div>

@@ -29,30 +29,54 @@ module.exports = function (app, model) {
         var userId = rsvpObj.userId;
         var concert = rsvpObj.concert;
 
+        model.concertModel.findConcertsForUser(userId)
+            .then(function(userObj) {
+                var concerts = userObj.myConcerts;
+                var objs = [];
 
-        model
-            .concertModel
-            .findConcertById(concert.cid)
-            .then(function (concertObj) {
-                if (concertObj != null) {
-                    model.concertModel.addConcertForUser(userId, concertObj)
-                        .then(function (newConcertObj) {
-                            res.sendStatus(200);
+                for(var c = 0; c < concerts.length; c++) {
+
+                    if(concerts[c].cid !== concert.cid) {
+                        objs.push(concerts[c]);
+                    }
+                }
+
+                if(concerts.length === 0 || concerts.length === objs.length) {
+                    // RSVP
+                    model
+                        .concertModel
+                        .findConcertById(concert.cid)
+                        .then(function (concertObj) {
+                            if (concertObj != null) {
+                                model.concertModel.addConcertForUser(userId, concertObj)
+                                    .then(function (newConcertObj) {
+                                        res.sendStatus(200);
+                                    });
+                            }
+                            else {
+                                model.concertModel.createConcert(concert)
+                                    .then(function (newConcertObj) {
+                                        model
+                                            .concertModel
+                                            .addConcertForUser(userId, newConcertObj)
+                                            .then(function () {
+                                                res.sendStatus(200);
+                                            });
+                                    });
+                            }
                         });
                 }
                 else {
 
-                    model.concertModel.createConcert(concert)
-                        .then(function (newConcertObj) {
-                            model
-                                .concertModel
-                                .addConcertForUser(userId, newConcertObj)
-                                .then(function () {
-                                    res.sendStatus(200);
-                                });
-                        });
+                    // UNDO RSVP
+                    userObj.myConcerts = objs;
+                    userObj.save();
                 }
-            })
+
+                res.sendStatus(200);
+
+            });
+
 
     }
 

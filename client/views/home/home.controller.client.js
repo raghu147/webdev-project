@@ -33,6 +33,12 @@
 
         function search() {
             vm.concerts = [];
+
+            if(vm.location === undefined || vm.location.trim().length === 0) {
+                Materialize.toast('Searchbox cannot be empty', 3000);
+                return;
+
+            }
             var promise = ConcertService.searchConcerts(vm.location, vm.range);
             promise
                 .success( function(concerts) {

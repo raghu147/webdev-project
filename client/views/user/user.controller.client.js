@@ -120,17 +120,25 @@
 
         function deleteUser(user) {
 
-            var promise =  UserService.deleteUser(user._id);
 
-            promise
-                .success( function(user) {
-                    Materialize.toast('Deleted !', 2000);
 
-                    init();
-                })
-                .error(function(error){
-                    Materialize.toast('Error ! ' + error, 2000);
-                });
+            if (confirm('Delete user ? ' + user.username)) {
+                var promise =  UserService.deleteUser(user._id);
+
+                promise
+                    .success( function(user) {
+                        Materialize.toast('Deleted !', 2000);
+
+                        init();
+                    })
+                    .error(function(error){
+                        Materialize.toast('Error ! ' + error, 2000);
+                    });
+            } else {
+                // Do nothing!
+            }
+
+
         }
 
         init();
