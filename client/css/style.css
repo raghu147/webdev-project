@@ -62,12 +62,23 @@ textarea:focus, input:focus {
     background-color: #191818;
 }
 
+.user-image {
+    padding-top: 15px;
+}
+
+.admin-border{
+    background-color: #191818;
+}
+
 .black-color {
     color: #212121;
 }
 
 .dark-background {
     background-color: #212121;
+}
+#admin-item{
+    background-color: #191818;
 }
 
 .sidebar-background {
