@@ -149,7 +149,7 @@
                                 if(users != '0'){
 
                                     for(var u in users) {
-                                        if(users[u]._id != vm.user._id) {
+                                        if(users[u]._id != vm.user._id && users[u].privateProfile === false) {
                                             vm.going.push(users[u]);
                                         }
                                     }
