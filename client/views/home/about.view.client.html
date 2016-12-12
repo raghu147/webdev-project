@@ -1,24 +1,41 @@
-<div>
-    <ng-include src="'views/home/sidenav.view.client.html'" xmlns="http://www.w3.org/1999/html"></ng-include>
-</div>
-
-<div id="mug" class="container">
-    <div class="row">
-        <div class="col s12">
-            <h3>About US</h3>
+<div class="row">
+    <div class="col m5 l3">
+        <ng-include src="'views/home/sidenav.view.client.html'" xmlns="http://www.w3.org/1999/html"></ng-include>
+    </div>
+    <div class="col s12 m7 l9">
+        <div class="container">
+            <h3>About US </h3>
+        </div>
+        <div class="card sidebar-background darken-1">
+            <div class="card-content white-text">
+                <div class="col s5 m4">
+                    <img ng-src="images/vishal.jpg" alt="" class="circle ng-scope aboutUsImgStyle" >
+                </div>
+                <div class="col s7 m8">
+                    <div class="row">
+                        <h5 class="ng-binding">Vishal Rao</h5>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+                <a class="waves-effect waves-light btn display_block"  target='_blank' href="https://www.facebook.com/vishal.rao.2992">Facebook</a>
+            </div>
         </div>
 
+        <div class="card sidebar-background darken-1">
+            <div class="card-content white-text">
+                <div class="col s5 m4">
+                    <img ng-src="images/raghu.jpg" alt="" class="circle ng-scope aboutUsImgStyle">
+                </div>
+                <div class="col s7 m8">
+                    <div class="row">
+                        <h5 class="ng-binding">Raghuveer Ramesh</h5>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+                <a class="waves-effect waves-light btn display_block"  target='_blank' href="https://www.facebook.com/raghuveer.ramesh">Facebook</a>
+            </div>
+        </div>
     </div>
 </div>
-
-<style>
-    #mug {
-        padding-left: 300px;
-    }
-
-    @media only screen and (max-width : 992px) {
-        #mug {
-            padding-left: 0;
-        }
-    }
-</style>

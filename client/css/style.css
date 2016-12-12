@@ -246,3 +246,8 @@ img {
     max-width: 60%;
     height: auto;
 }
+
+.aboutUsImgStyle {
+    width: 95px;
+    height: auto;
+}
