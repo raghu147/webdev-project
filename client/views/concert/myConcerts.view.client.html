@@ -37,7 +37,7 @@
                                     <p>{{concert.venue_name}}</p>
                                 </div>
                             </div>
-                            <a class="waves-effect waves-light btn display_block" href="#/concert/{{concert.cid}}">Event Details</a>
+                            <a ng-disabled="model.isPastEvent(concert)" class="waves-effect waves-light btn display_block" href="#/concert/{{concert.cid}}">Event Details</a>
                         </div>
                     </div>
                 </div>

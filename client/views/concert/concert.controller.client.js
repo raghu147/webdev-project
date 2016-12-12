@@ -11,6 +11,7 @@
         vm.loadUpcomingConcerts = loadUpcomingConcerts;
         vm.getPastConcertsForUser = getPastConcertsForUser;
         vm.profileClick = profileClick;
+        vm.isPastEvent = isPastEvent;
         vm.concerts = undefined;
 
         var userId = $routeParams.uid;
@@ -60,6 +61,10 @@
             .error(function(error){
                 console.log("error "+ error);
             });
+
+        function isPastEvent(concert) {
+           return (new Date(concert.dateTime) < new Date());
+        }
 
     }
 
