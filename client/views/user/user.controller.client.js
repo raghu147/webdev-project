@@ -77,39 +77,26 @@
         var vm = this;
         vm.register = register;
 
-        function register(username, password){
+        function register(username, password) {
 
-            var promise = UserService.findUserByUsername(username);
+            var user = {username: username, password: password};
+            var promise = UserService.createUser(user);
 
             promise
-                .success( function(user) {
+                .success(function (response) {
 
-                    if(user)
-                        alert("User already exists! Choose a different username !");
-                    else
-                    {
-                        doRegister(username, password);
+                    if(response === "0") {
+                        Materialize.toast('Username is taken. ', 4000);
                     }
-                })
-                .error(function(error){
-                    console.log("error "+ error);
-                });
-
-
-            function doRegister() {
-                var user = {username:username, password: password};
-                var promise = UserService.createUser(user);
-
-                promise
-                    .success( function(user) {
+                    else {
                         $location.url("/#");
                         Materialize.toast('Welcome!', 4000);
-                    })
-                    .error(function(error){
-                        console.log("error "+ error);
-                    });
-            }
+                    }
 
+                })
+                .error(function (error) {
+                    console.log("error " + error);
+                });
         }
     }
 

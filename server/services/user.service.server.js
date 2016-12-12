@@ -386,21 +386,33 @@ module.exports = function(app, model) {
     function createUser(req, res) {
 
         var user = req.body;
-        model.userModel
-            .createUser(user)
-            .then(
-                function(newUser){
-                    if(newUser){
-                        req.login(newUser, function(err) {
-                            if(err) {
-                                res.status(400).send(err);
-                            } else {
-                                res.json(newUser);
+
+        model.userModel.findUserByUsername(user.username)
+            .then(function(userObj){
+
+                if(userObj === null) {
+                    model.userModel
+                        .createUser(user)
+                        .then(
+                            function(newUser){
+                                if(newUser){
+                                    req.login(newUser, function(err) {
+                                        if(err) {
+                                            res.status(400).send(err);
+                                        } else {
+                                            res.json(newUser);
+                                        }
+                                    });
+                                }
                             }
-                        });
-                    }
+                        );
                 }
-            );
+                else {
+                    res.json("0");
+                }
+            })
+
+
     }
 
 };
