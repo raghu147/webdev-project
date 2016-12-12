@@ -35,7 +35,7 @@
                     }
                 })
                 .error(function(error){
-                    vm.error = "Unauthorized";
+                    Materialize.toast('Error : ' + error, 4000);
                 });
 
         }

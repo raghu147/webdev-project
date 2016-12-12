@@ -9,14 +9,15 @@
     <li ng-if="model.user" ><a ng-click="model.profileClick()"> @{{model.user.username}}</a></li>
     <li><a onclick="homeClick()" >Home</a></li>
     <li ng-if="model.user == undefined" ><a onclick='loginClick()' > Login</a></li>
-    <li><a href="#/about">About</a></li>
+    <li><a onClick="aboutClick()">About</a></li>
     <li ng-if="model.user"><a ng-click="model.myConcerts()">My concerts</a></li>
-    <li ng-if="model.user"><a href="#/user/{{model.user._id}}/people">People</a></li>
+    <li onClick="onPeopleClick()" ng-if="model.user"><a href="#/user/{{model.user._id}}/people">People</a></li>
     <li ng-if="model.user" ><a onclick='signout()'>Signout</a></li>
 </ul>
 
 <script>
     $(".button-collapse").sideNav();
+
     function loginClick() {
         $('.button-collapse').sideNav('hide');
         window.location = "#/login";
@@ -35,6 +36,15 @@
         });
 
 
+    }
+
+    function aboutClick() {
+        $('.button-collapse').sideNav('hide');
+        window.location = "#/about";
+    }
+
+    function onPeopleClick() {
+        $('.button-collapse').sideNav('hide');
     }
 
     function homeClick() {

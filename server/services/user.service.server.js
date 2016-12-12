@@ -230,7 +230,10 @@ module.exports = function(app, model) {
             .then(
                 function (user){
 
-                    if(user.username === username && user.password === password) {
+                    if(user == null) {
+                        return done(null, false);
+                    }
+                    else if(user.username === username && user.password === password) {
                         return done(null, user);
                     }
                     else {
