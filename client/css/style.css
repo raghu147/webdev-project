@@ -182,6 +182,10 @@ textarea:focus, input:focus {
     margin-top: 15px;
 }
 
+.profileMargin {
+    margin-top: 15px;
+}
+
 
 ::-webkit-input-placeholder {
     color: grey;
@@ -252,6 +256,6 @@ img {
 }
 
 .aboutUsImgStyle {
-    width: 95px;
+    max-width: 100px;
     height: auto;
 }

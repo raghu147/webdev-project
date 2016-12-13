@@ -1,45 +1,40 @@
 <div class="row black-color">
-    <div class="col m5 l3 black-color">
-        <ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
-    </div>
-    <div class="col s12 m7 l9">
+
+    <ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
+
+    <div class="container">
         <div class="loading" data-loading>
-            <!--<double-bounce-spinner></double-bounce-spinner>-->
             <wave-spinner></wave-spinner>
         </div>
         <div ng-if="model.concert">
             <div class="card sidebar-background darken-1">
                 <div class="card-content white-text">
-                    <h5 class="center-align card-title" >{{model.concert.title}}</h5>
+                    <div class="col s12">
+                        <h5 class="card-title center" >{{model.concert.title}}</h5>
+                    </div>
                     <div class="row">
-                        <div class="col s12 m4">
+                        <div class="col s6 m4">
                             <img ng-if="model.concert.imageURL == undefined" src="../../images/Music.png" class="circle default-img" >
                             <img ng-if="model.concert.imageURL != undefined" ng-src="{{model.concert.imageURL}}" alt="" class="circle" />
                         </div>
-                        <div class="col s12 m8">
+                        <div class="col s6 m8">
                             <div class="row">
-                                <p>On :{{model.concert.date}},   At : {{model.concert.time}}</p>
+                                On :{{model.concert.date}},   At : {{model.concert.time}}
                             </div>
                             <div class="row">
-                                <p>{{model.concert.venue_name}}</p>
+                                {{model.concert.venue_name}}
                             </div>
                             <div class="row">
-                                <p>{{model.concert.address}}</p>
+                                {{model.concert.address}}
                             </div>
                             <div class="row">
-
                                     <a ng-if="model.concert.isGoing === false && model.user != undefined"class="btn" ng-click="model.doRSVP()"> RSVP !</a>
-
-
                                     <a ng-if="model.concert.isGoing === true"  ng-click="model.doRSVP()" class="btn fa fa-times" > Going!</a>
-
                             </div>
                         </div>
-
-
                     </div>
 
-                    <div class="row ">
+                    <div>
                         <div>
                             <ul class="collapsible sidebar-background" data-collapsible="accordion">
                                 <li>
@@ -48,12 +43,11 @@
                                 </li>
                             </ul>
                         </div>
-
                     </div>
 
 
-                    <div class="card-action">
-                        <h5 ng-if="model.going.length"> Others Going</h5>
+                    <div ng-if="model.going.length" class="card-action">
+                        <h5 > Others Going</h5>
                         <div ng-repeat="person in model.going" class="row">
                             <div class="col s6 l3">
                                 <u><a href="#/user/{{model.user._id}}/people/{{person._id}}">@{{person.username}}</a></u>

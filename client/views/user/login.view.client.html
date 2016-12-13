@@ -1,8 +1,6 @@
 <div class="row">
-    <div class="col m5 l3">
-        <ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
-    </div>
-    <div class="col s12 m7 l9">
+    <ng-include src="'views/home/sidenav.view.client.html'"></ng-include>
+    <div class="col s12">
         <div class="container">
             <div ng-show="model.error" class="alert alert-danger" role="alert">
                 {{model.error}}
@@ -39,6 +37,5 @@
                 <a class="waves-effect waves-light btn display_block" href="#/register">Register</a>
             </div>
         </div>
-    </div>
 </div>
 
