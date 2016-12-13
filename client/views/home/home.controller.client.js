@@ -43,8 +43,13 @@
             promise
                 .success( function(concerts) {
                     if(concerts) {
-                        vm.concerts = concerts;
-                        vm.setPage(1);
+                        if(concerts !== undefined && concerts !== "0") {
+                            vm.concerts = concerts;
+                            vm.setPage(1);
+                        }
+                        else {
+                            Materialize.toast('No results found !', 5000);
+                        }
                     }
                 })
                 .error(function(error){
