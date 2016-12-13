@@ -76,10 +76,13 @@
 
             // get pager object from service
             vm.pager = PagerService.GetPager(vm.concerts.length, page);
-            console.log("pager:"+vm.pager);
+            console.log("number:"+vm.concerts.length);
 
             // get current page of items
             vm.items = vm.concerts.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
+            console.log("startindex:" + vm.pager.startIndex);
+            console.log("endindex:" + vm.pager.endIndex);
+            console.log("items:" + vm.items[0]);
         }
 
 

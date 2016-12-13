@@ -5,7 +5,7 @@
     <!--TODO: fix for portrait mode ipad-->
     <div class="col s12 m7 l9">
         <div class="container">
-            <h3>Search for Concerts! </h3>
+            <h3 class="center-align">Search for Concerts! </h3>
             <div class="row">
                 <form target="#here" method="post">
                     <div class="row">
@@ -38,7 +38,7 @@
                             <!--<double-bounce-spinner></double-bounce-spinner>-->
                             <wave-spinner></wave-spinner>
                         </div>
-                        <div ng-repeat="concert in model.concerts">
+                        <div ng-repeat="concert in model.items">
                             <div class="card sidebar-background darken-1">
                                 <div class="card-content white-text">
                                     <div class="col s5 m4">
@@ -64,31 +64,31 @@
                     </ul>
                 </div>
             </div>
+            <div class="row center-align">
+                <ul ng-if="model.pager.pages.length" class="pagination">
+                    <li ng-class="{disabled:model.pager.currentPage === 1}">
+                        <a ng-click="model.setPage(1)">First</a>
+                    </li>
+                    <li ng-class="{disabled:model.pager.currentPage === 1}">
+                        <a ng-click="model.setPage(model.pager.currentPage - 1)">Previous</a>
+                    </li>
+                    <li ng-repeat="page in model.pager.pages" ng-class="{active:model.pager.currentPage === page}">
+                        <a ng-click="model.setPage(page)">{{page}}</a>
+                    </li>
+                    <li ng-class="{disabled:model.pager.currentPage === model.pager.totalPages}">
+                        <a ng-click="model.setPage(model.pager.currentPage + 1)">Next</a>
+                    </li>
+                    <li ng-class="{disabled:model.pager.currentPage === model.pager.totalPages}">
+                        <a ng-click="model.setPage(model.pager.totalPages)">Last</a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
     </div>
     <a href="#" class="back-to-top" style="display: none;">
         <i class="fa fa-arrow-circle-up"></i>
     </a>
-</div>
-<div class="row">
-    <ul ng-if="model.pager.pages.length" class="pagination">
-        <li ng-class="{disabled:model.pager.currentPage === 1}">
-            <a ng-click="model.setPage(1)">First</a>
-        </li>
-        <li ng-class="{disabled:model.pager.currentPage === 1}">
-            <a ng-click="model.setPage(model.pager.currentPage - 1)">Previous</a>
-        </li>
-        <li ng-repeat="page in model.pager.pages" ng-class="{active:model.pager.currentPage === page}">
-            <a ng-click="model.setPage(page)">{{page}}</a>
-        </li>
-        <li ng-class="{disabled:model.pager.currentPage === model.pager.totalPages}">
-            <a ng-click="model.setPage(model.pager.currentPage + 1)">Next</a>
-        </li>
-        <li ng-class="{disabled:model.pager.currentPage === model.pager.totalPages}">
-            <a ng-click="model.setPage(model.pager.totalPages)">Last</a>
-        </li>
-    </ul>
 </div>
 
 <script>

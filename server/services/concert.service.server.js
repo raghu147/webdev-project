@@ -82,7 +82,7 @@ module.exports = function (app, model) {
 
     function searchConcerts(req, resp) {
 
-        var URLPrefix = 'http://api.eventful.com/json/events/search?app_key=sC5S8M8pwQpBW5t2&q=music&image_sizes=block&units=miles&within=';
+        var URLPrefix = 'http://api.eventful.com/json/events/search?app_key=sC5S8M8pwQpBW5t2&q=music&image_sizes=block&page_size=40&units=miles&within=';
         var searchObj = req.body;
         var location = searchObj.location;
         var range = searchObj.range;

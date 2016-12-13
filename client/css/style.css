@@ -241,6 +241,10 @@ input[type=range]::-ms-thumb {
     background-color: #e30013;
 }
 
+.pagination li a {
+    color: #e30013;
+}
+
 
 img {
     max-width: 60%;
