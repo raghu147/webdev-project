@@ -75,9 +75,33 @@ textarea:focus, input:focus {
     color: #212121;
 }
 
+.collection.with-header .collection-header {
+    background-color: #212121;
+}
+
+.collection.with-header:nth-child(odd) .collection-header:nth-child(odd) {
+    background-color: #191818;
+}
+
+.collection .collection-item {
+    background-color: #212121;
+}
+
+.collection:nth-child(odd) .collection-item:nth-child(odd) {
+    background-color: #191818;
+}
+
+li.collection-item {
+    color: #e30013;
+}
+
+li.collection-item { background: green; }
+li.collection-item:nth-child(odd) { background: #212121; }
+
 .dark-background {
     background-color: #212121;
 }
+
 #admin-item{
     background-color: #191818;
 }
