@@ -8,6 +8,7 @@
     </li>
     <li ng-if="model.user" ><a ng-click="model.profileClick()"> @{{model.user.username}}</a></li>
     <li><a onclick="homeClick()" >Home</a></li>
+    <li><a ng-if="model.user.role === 'ADMIN'" onClick="userMgmtClick()" >User Management</a></li>
     <li ng-if="model.user == undefined" ><a onclick='loginClick()' > Login</a></li>
     <li><a onClick="aboutClick()">About</a></li>
     <li ng-if="model.user"><a ng-click="model.myConcerts()">My concerts</a></li>
@@ -18,6 +19,10 @@
 <script>
     $(".button-collapse").sideNav();
 
+    function userMgmtClick() {
+        $('.button-collapse').sideNav('hide');
+        window.location = "#/adminuser/admin";
+    }
     function loginClick() {
         $('.button-collapse').sideNav('hide');
         window.location = "#/login";
