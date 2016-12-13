@@ -68,6 +68,7 @@ textarea:focus, input:focus {
 
 .admin-border{
     background-color: #191818;
+    border-radius: 10px;
 }
 
 .black-color {
@@ -99,7 +100,8 @@ textarea:focus, input:focus {
 .row-style
 {
     color: rgb(65, 146, 191);
-    margin-top : 10px;
+    border-bottom-color: white;
+    border-bottom-style: solid;
 
 }
 

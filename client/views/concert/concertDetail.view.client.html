@@ -65,7 +65,7 @@
                                     <u>@{{comment.user}}</u></a>
                                     <li>{{comment.commentString}}</li>
                                 </div>
-                                <div ng-if="model.user.role === 'ADMIN'" ng-click="model.deleteComment(comment)" class="col s1 l1">
+                                <div ng-if="model.user.role === 'ADMIN'" data-target="deleteCommentModal" ng-click="model.setCommentToDelete(comment)" class="col s1 l1">
                                     <a class="fa fa-times"></a>
                                 </div>
                             </div>
@@ -77,11 +77,31 @@
                             <textarea ng-model="model.commentString"  placeholder="Post your comment here"></textarea>
                         </div>
                         <div class="col s4 l3">
-                            <a class="waves-effect waves-light btn" ng-click="model.postComment()">Post</a>
+                            <a class="waves-effect waves-light btn" data-target="commentModal" >Post</a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="commentModal" class="modal">
+        <div class="modal-content">
+            <h4>Post Comment?</h4>
+        </div>
+        <div class="modal-footer">
+            <a  ng-click="model.postComment()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes</a>
+            <a  class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+        </div>
+    </div>
+
+    <div id="deleteCommentModal" class="modal">
+        <div class="modal-content">
+            <h4>Delete Comment?</h4>
+        </div>
+        <div class="modal-footer">
+            <a  ng-click="model.deleteComment()" class="modal-action modal-close waves-effect waves-green btn-flat">Yes</a>
+            <a  class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
         </div>
     </div>
 </div>

@@ -80,6 +80,7 @@
         vm.deleteComment = deleteComment;
 
         vm.isFollowing = isFollowing;
+        vm.setCommentToDelete = setCommentToDelete;
 
         // vm.concert = undefined;
 
@@ -95,6 +96,9 @@
 
         function isFollowing(personId) {
             return (vm.user.follows.indexOf(personId) > -1);
+        }
+        function setCommentToDelete(comment) {
+            vm.commentToDelete = comment;
         }
         function doRSVP() {
 
@@ -140,30 +144,26 @@
             }
 
 
-            if (confirm('Post comment ? ')) {
-                CommentService.postComment(comment)
-                    .success(function(status){
-                        init();
-                    })
-                    .error(function(err) {
-                        console.log("Error: " + err);
-                    });
-            }
+
+            CommentService.postComment(comment)
+                .success(function(status){
+                    init();
+                })
+                .error(function(err) {
+                    console.log("Error: " + err);
+                });
+
 
         }
 
-        function deleteComment(comment) {
-
-            if (confirm('Delete comment ? ')) {
-                CommentService.deleteComment(comment.cid)
-                    .success(function(status){
-                        init();
-                    })
-                    .error(function(err) {
-                        console.log("Error: " + err);
-                    });
-            }
-
+        function deleteComment() {
+            CommentService.deleteComment(vm.commentToDelete.cid)
+                .success(function(status){
+                    init();
+                })
+                .error(function(err) {
+                    console.log("Error: " + err);
+                });
         }
 
         init();
@@ -209,6 +209,7 @@
                             CommentService.getCommentsForConcert(concertId)
                                 .success(function (comments) {
                                     vm.comments = comments;
+                                    $('.modal').modal();
                                 })
                                 .error(function(err) {
                                     console.log(err);

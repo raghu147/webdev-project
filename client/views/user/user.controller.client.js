@@ -104,28 +104,27 @@
 
         var vm = this;
         vm.deleteUser = deleteUser;
+        vm.selectUser = selectUser;
+        vm.selectedUser ;
+        function selectUser(user) {
+            vm.selectedUser = user;
+        }
 
-        function deleteUser(user) {
+        function deleteUser() {
 
+            var user = vm.selectedUser;
 
+            var promise =  UserService.deleteUser(user._id);
 
-            if (confirm('Delete user ? ' + user.username)) {
-                var promise =  UserService.deleteUser(user._id);
+            promise
+                .success( function() {
+                    Materialize.toast('Deleted !', 2000);
 
-                promise
-                    .success( function(user) {
-                        Materialize.toast('Deleted !', 2000);
-
-                        init();
-                    })
-                    .error(function(error){
-                        Materialize.toast('Error ! ' + error, 2000);
-                    });
-            } else {
-                // Do nothing!
-            }
-
-
+                    init();
+                })
+                .error(function(error){
+                    Materialize.toast('Error ! ' + error, 2000);
+                });
         }
 
         init();
@@ -148,6 +147,7 @@
                 .success( function(users) {
                     if(users) {
                         vm.users = users;
+                        $('.modal').modal();
                     }
                 })
                 .error(function(error){
