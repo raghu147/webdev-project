@@ -5,6 +5,7 @@ module.exports = function () {
 
     var userModel = require("./user/user.model.server.js")();
     var concertModel = require("./concert/concert.model.server.js")();
+    var commentModel = require("./comment/comment.model.server.js")();
     // var websiteModel = require("./website/website.model.server.js")();
     // var pageModel = require("./page/page.model.server.js")();
     // var widgetModel = require("./widget/widget.model.server.js")();
@@ -13,7 +14,8 @@ module.exports = function () {
 
     var model = {
         userModel:userModel,
-        concertModel: concertModel
+        concertModel: concertModel,
+        commentModel: commentModel
         // websiteModel:websiteModel,
         // pageModel:pageModel,
         // widgetModel:widgetModel
@@ -22,7 +24,7 @@ module.exports = function () {
 
     userModel.setModel(model);
     concertModel.setModel(model);
-    // pageModel.setModel(model);
+    commentModel.setModel(model);
     // widgetModel.setModel(model);
 
     return model;

@@ -35,16 +35,55 @@
 
                             </div>
                         </div>
-                        <div class="col s12" ng-bind-html="model.checkSafeHtml(model.concert.description)"></div>
+
+
                     </div>
+
+                    <div class="row ">
+                        <div>
+                            <ul class="collapsible sidebar-background" data-collapsible="accordion">
+                                <li>
+                                    <div class="collapsible-header sidebar-background"><i class="material-icons">filter_drama</i> Show Description</div>
+                                    <div class="collapsible-body col s12 sidebar-background" ng-bind-html="model.checkSafeHtml(model.concert.description)"></div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+
                     <div class="card-action">
                         <h5 ng-if="model.going.length"> Others Going</h5>
                         <div ng-repeat="person in model.going" class="row">
                             <div class="col s6 l3">
-                                <a href="#/user/{{model.user._id}}/people/{{person._id}}">{{person.username}}</a>
+                                <u><a href="#/user/{{model.user._id}}/people/{{person._id}}">@{{person.username}}</a></u>
                             </div>
                             <a ng-if="model.isFollowing(person._id) == true" class="waves-effect right waves-light btn" >Following</a>
                             <a ng-if="model.isFollowing(person._id) == false" class="waves-effect right waves-light btn" ng-click="model.doFollow(person)">Follow</a>
+                        </div>
+                    </div>
+
+                    <div ng-if="model.comments.length > 0">
+                        <ul>
+                            <div ng-repeat="comment in model.comments" class="row">
+                                <div class="col s11 l11">
+                                    <a href="#/user/{{model.user._id}}/people/{{comment.userId}}">
+                                    <u>@{{comment.user}}</u></a>
+                                    <li>{{comment.commentString}}</li>
+                                </div>
+                                <div ng-if="model.user.role === 'ADMIN'" ng-click="model.deleteComment(comment)" class="col s1 l1">
+                                    <a class="fa fa-times"></a>
+                                </div>
+                            </div>
+                        </ul>
+
+                    </div>
+                    <div ng-if="model.user._id" class="sidebar-background row">
+                        <div class="col s8 l9">
+                            <textarea ng-model="model.commentString"  placeholder="Post your comment here"></textarea>
+                        </div>
+                        <div class="col s4 l3">
+                            <a class="waves-effect waves-light btn" ng-click="model.postComment()">Post</a>
                         </div>
                     </div>
                 </div>

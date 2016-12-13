@@ -68,7 +68,7 @@
 
     }
 
-    function ConcertDetailController($sce, $routeParams, ConcertService, $location, UserService) {
+    function ConcertDetailController($sce, $routeParams, ConcertService, $location, UserService, CommentService) {
 
         var vm = this;
         vm.checkSafeHtml = checkSafeHtml;
@@ -76,6 +76,8 @@
         vm.doFollow = doFollow;
         vm.profileClick = profileClick;
         vm.myConcerts = myConcerts;
+        vm.postComment = postComment;
+        vm.deleteComment = deleteComment;
 
         vm.isFollowing = isFollowing;
 
@@ -120,7 +122,48 @@
         }
 
         function checkSafeHtml(html) {
+            $('.collapsible').collapsible();
             return $sce.trustAsHtml(html);
+        }
+
+        function postComment() {
+            var comment = {
+                cid:vm.concert.id,
+                user:vm.user.username,
+                userId: vm.user._id,
+                commentString: vm.commentString
+            };
+
+            if(vm.commentString === undefined || vm.commentString.trim().length === 0) {
+                Materialize.toast('Comment cannot be empty !', 4000);
+                return;
+            }
+
+
+            if (confirm('Post comment ? ')) {
+                CommentService.postComment(comment)
+                    .success(function(status){
+                        init();
+                    })
+                    .error(function(err) {
+                        console.log("Error: " + err);
+                    });
+            }
+
+        }
+
+        function deleteComment(comment) {
+
+            if (confirm('Delete comment ? ')) {
+                CommentService.deleteComment(comment.cid)
+                    .success(function(status){
+                        init();
+                    })
+                    .error(function(err) {
+                        console.log("Error: " + err);
+                    });
+            }
+
         }
 
         init();
@@ -129,6 +172,8 @@
             var concertId = $routeParams.cid;
             var promise = ConcertService.getConcertDetail(concertId);
             vm.going = [];
+            vm.comments = [];
+            vm.commentString = undefined;
 
             promise
                 .success( function(concert) {
@@ -159,6 +204,16 @@
                             .error(function(error){
                                 console.log("error:"+error);
                             });
+
+                        if(vm.user) {
+                            CommentService.getCommentsForConcert(concertId)
+                                .success(function (comments) {
+                                    vm.comments = comments;
+                                })
+                                .error(function(err) {
+                                    console.log(err);
+                                })
+                        }
                     }
                 })
                 .error(function(error){
