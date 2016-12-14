@@ -67,10 +67,25 @@ module.exports = function (app, model) {
                         });
                 }
                 else {
-
                     // UNDO RSVP
-                    userObj.myConcerts = objs;
-                    userObj.save();
+                    model.concertModel.findConcertById(concert.cid)
+                        .then(function (concertObj) {
+
+                            var going = concertObj.users;
+                            var newGoing = [];
+                            for(var c = 0; c< going.length; c++) {
+
+                                if(going[c].toString() !== userId) {
+                                    newGoing.push(going[c]);
+                                }
+                            }
+
+                            userObj.myConcerts = objs;
+                            userObj.save();
+
+                            concertObj.users = newGoing;
+                            concertObj.save();
+                        });
                 }
 
                 res.sendStatus(200);
