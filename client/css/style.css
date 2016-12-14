@@ -95,8 +95,12 @@ li.collection-item {
     color: #e30013;
 }
 
+.collection li:nth-child(odd) {
+    background-color: #191818;
+}
+
 li.collection-item { background: green; }
-li.collection-item:nth-child(odd) { background: #212121; }
+li.collection-item:nth-child(even) { background: #212121; }
 
 .dark-background {
     background-color: #212121;
